@@ -13,11 +13,11 @@ object SessionFlow {
 
     /**
      * Start a new session with the given deck.
-     * Cards are shown in deck order; current index 0 = first card.
+     * Randomly selects 10 cards from the deck; cards are shown in shuffled order.
      */
     fun startSession(deck: Deck, direction: PracticeDirection): SessionState = SessionState(
         currentIndex = 0,
-        cards = deck.cards,
+        cards = deck.cards.shuffled().take(10),
         results = emptyList(),
         direction = direction,
     )
