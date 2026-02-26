@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import net.thetrues.languagecards.model.Card
+import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SampleData
 import net.thetrues.languagecards.model.SessionState
 import net.thetrues.languagecards.model.StatsStore
@@ -45,14 +48,14 @@ class MainActivity : ComponentActivity() {
                     when {
                         sessionState == null -> StartScreen(
                             deckName = SampleData.defaultDeck.name,
-                            onStart = { sessionState = SessionFlow.startSession(SampleData.defaultDeck) },
+                            onStart = { direction ->
+                                sessionState = SessionFlow.startSession(SampleData.defaultDeck, direction)
+                            },
                             modifier = Modifier.padding(innerPadding),
                         )
                         sessionState!!.isAtSummary -> SummaryScreen(
                             state = sessionState!!,
-                            onPracticeAgain = {
-                                sessionState = SessionFlow.startSession(SampleData.defaultDeck)
-                            },
+                            onPracticeAgain = { sessionState = null },
                             onExit = { finish() },
                             modifier = Modifier.padding(innerPadding),
                         )
@@ -74,9 +77,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun StartScreen(
     deckName: String,
-    onStart: () -> Unit,
+    onStart: (PracticeDirection) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var selectedDirection by remember { mutableStateOf(PracticeDirection.A_TO_B) }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -90,8 +94,35 @@ private fun StartScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = deckName, style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Practice direction",
+            style = MaterialTheme.typography.titleSmall,
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            RadioButton(
+                selected = selectedDirection == PracticeDirection.A_TO_B,
+                onClick = { selectedDirection = PracticeDirection.A_TO_B },
+            )
+            Text(
+                text = "English → French",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(end = 16.dp),
+            )
+            RadioButton(
+                selected = selectedDirection == PracticeDirection.B_TO_A,
+                onClick = { selectedDirection = PracticeDirection.B_TO_A },
+            )
+            Text(
+                text = "French → English",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = onStart) {
+        Button(onClick = { onStart(selectedDirection) }) {
             Text("Start")
         }
     }
@@ -111,6 +142,10 @@ private fun CardScreen(
 ) {
     val card = state.currentCard ?: return
     var phase by remember(card.id) { mutableStateOf(CardPhase.PROMPT) }
+    val (prompt, answer) = when (state.direction) {
+        PracticeDirection.A_TO_B -> card.sideA to card.sideB
+        PracticeDirection.B_TO_A -> card.sideB to card.sideA
+    }
 
     Column(
         modifier = modifier
@@ -121,7 +156,7 @@ private fun CardScreen(
     ) {
         when (phase) {
             CardPhase.PROMPT -> {
-                Text(text = card.sideA)
+                Text(text = prompt)
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(onClick = { phase = CardPhase.SHOWING_AFTER_KNOW }) {
                     Text("I know")
@@ -132,14 +167,14 @@ private fun CardScreen(
                 }
             }
             CardPhase.SHOWING_AFTER_SHOW_ANSWER -> {
-                Text(text = card.sideB)
+                Text(text = answer)
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(onClick = { onAnswer(card.id, false) }) {
                     Text("Continue")
                 }
             }
             CardPhase.SHOWING_AFTER_KNOW -> {
-                Text(text = card.sideB)
+                Text(text = answer)
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(onClick = { onAnswer(card.id, true) }) {
                     Text("I was right")
@@ -163,6 +198,10 @@ private fun SummaryScreen(
     val missedCards = state.cards.zip(state.results)
         .filter { (_, result) -> !result.wasHit }
         .map { (card, _) -> card }
+    val (promptSide, answerSide) = when (state.direction) {
+        PracticeDirection.A_TO_B -> ({ c: Card -> c.sideA } to { c: Card -> c.sideB })
+        PracticeDirection.B_TO_A -> ({ c: Card -> c.sideB } to { c: Card -> c.sideA })
+    }
 
     Column(
         modifier = modifier
@@ -187,7 +226,7 @@ private fun SummaryScreen(
                 style = MaterialTheme.typography.titleMedium,
             )
             for (card in missedCards) {
-                Text(text = "${card.sideA} → ${card.sideB}")
+                Text(text = "${promptSide(card)} → ${answerSide(card)}")
             }
         }
 

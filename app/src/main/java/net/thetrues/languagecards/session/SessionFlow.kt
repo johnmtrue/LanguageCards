@@ -2,6 +2,7 @@ package net.thetrues.languagecards.session
 
 import net.thetrues.languagecards.model.CardResult
 import net.thetrues.languagecards.model.Deck
+import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SessionState
 
 /**
@@ -14,10 +15,11 @@ object SessionFlow {
      * Start a new session with the given deck.
      * Cards are shown in deck order; current index 0 = first card.
      */
-    fun startSession(deck: Deck): SessionState = SessionState(
+    fun startSession(deck: Deck, direction: PracticeDirection): SessionState = SessionState(
         currentIndex = 0,
         cards = deck.cards,
         results = emptyList(),
+        direction = direction,
     )
 
     /**
