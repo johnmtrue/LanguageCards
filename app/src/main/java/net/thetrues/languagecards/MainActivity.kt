@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import net.thetrues.languagecards.model.Card
+import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SampleData
 import net.thetrues.languagecards.model.SessionState
@@ -47,9 +48,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     when {
                         sessionState == null -> StartScreen(
-                            deckName = SampleData.defaultDeck.name,
-                            onStart = { direction ->
-                                sessionState = SessionFlow.startSession(SampleData.defaultDeck, direction)
+                            decks = SampleData.decks,
+                            onStart = { deck, direction ->
+                                sessionState = SessionFlow.startSession(deck, direction)
                             },
                             modifier = Modifier.padding(innerPadding),
                         )
@@ -76,15 +77,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun StartScreen(
-    deckName: String,
-    onStart: (PracticeDirection) -> Unit,
+    decks: List<Deck>,
+    onStart: (Deck, PracticeDirection) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var selectedDeck by remember { mutableStateOf(decks.first()) }
     var selectedDirection by remember { mutableStateOf(PracticeDirection.A_TO_B) }
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -92,8 +95,26 @@ private fun StartScreen(
             text = "Language Cards",
             style = MaterialTheme.typography.headlineMedium,
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = deckName, style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Deck",
+            style = MaterialTheme.typography.titleSmall,
+        )
+        decks.forEach { deck ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 4.dp),
+            ) {
+                RadioButton(
+                    selected = selectedDeck.id == deck.id,
+                    onClick = { selectedDeck = deck },
+                )
+                Text(
+                    text = deck.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Practice direction",
@@ -122,7 +143,7 @@ private fun StartScreen(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = { onStart(selectedDirection) }) {
+        Button(onClick = { onStart(selectedDeck, selectedDirection) }) {
             Text("Start")
         }
     }
@@ -144,7 +165,7 @@ private fun CardScreen(
     var phase by remember(card.id) { mutableStateOf(CardPhase.PROMPT) }
     val (prompt, answer) = when (state.direction) {
         PracticeDirection.A_TO_B -> card.sideA to card.sideB.joinToString(" / ")
-        PracticeDirection.B_TO_A -> card.sideB.first() to card.sideA
+        PracticeDirection.B_TO_A -> remember(card.id) { card.sideB.random() } to card.sideA
     }
 
     Column(

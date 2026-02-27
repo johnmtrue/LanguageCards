@@ -47,10 +47,43 @@ object SampleData {
         Card("40", "Straight ahead", "Tout droit"),
     )
 
-    /** Single French deck for the minimum version. */
+    private val pastTenseCards = listOf(
+        Card("pt-1", "I went", "Je suis allé"),
+        Card("pt-2", "I ate", "J'ai mangé"),
+        Card("pt-3", "I drank", "J'ai bu"),
+        Card("pt-4", "I saw", "J'ai vu"),
+        Card("pt-5", "I spoke", "J'ai parlé"),
+        Card("pt-6", "I walked", "J'ai marché"),
+        Card("pt-7", "I worked", "J'ai travaillé"),
+        Card("pt-8", "I slept", "J'ai dormi"),
+        Card("pt-9", "I wrote", "J'ai écrit"),
+        Card("pt-10", "I read", "J'ai lu"),
+        Card("pt-11", "I bought", "J'ai acheté"),
+        Card("pt-12", "I sold", "J'ai vendu"),
+        Card("pt-13", "I came", "Je suis venu"),
+        Card("pt-14", "I left", "Je suis parti"),
+        Card("pt-15", "I arrived", "Je suis arrivé"),
+        Card("pt-16", "I finished", "J'ai fini"),
+        Card("pt-17", "I started", "J'ai commencé"),
+        Card("pt-18", "I took", "J'ai pris"),
+        Card("pt-19", "I made", "J'ai fait"),
+        Card("pt-20", "I had", "J'ai eu"),
+    )
+
+    /** French basics deck. */
     val defaultDeck: Deck = Deck(
         id = "french-1",
         name = "French — Basics",
         cards = cards,
     )
+
+    /** French past tense verb phrases deck. */
+    val pastTenseDeck: Deck = Deck(
+        id = "french-past",
+        name = "French - Past Tense",
+        cards = pastTenseCards,
+    )
+
+    /** All available decks. */
+    val decks: List<Deck> = listOf(defaultDeck, pastTenseDeck)
 }
