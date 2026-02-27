@@ -143,8 +143,8 @@ private fun CardScreen(
     val card = state.currentCard ?: return
     var phase by remember(card.id) { mutableStateOf(CardPhase.PROMPT) }
     val (prompt, answer) = when (state.direction) {
-        PracticeDirection.A_TO_B -> card.sideA to card.sideB
-        PracticeDirection.B_TO_A -> card.sideB to card.sideA
+        PracticeDirection.A_TO_B -> card.sideA to card.sideB.joinToString(" / ")
+        PracticeDirection.B_TO_A -> card.sideB.first() to card.sideA
     }
 
     Column(
@@ -199,8 +199,14 @@ private fun SummaryScreen(
         .filter { (_, result) -> !result.wasHit }
         .map { (card, _) -> card }
     val (promptSide, answerSide) = when (state.direction) {
-        PracticeDirection.A_TO_B -> ({ c: Card -> c.sideA } to { c: Card -> c.sideB })
-        PracticeDirection.B_TO_A -> ({ c: Card -> c.sideB } to { c: Card -> c.sideA })
+        PracticeDirection.A_TO_B -> (
+            { c: Card -> c.sideA } to
+            { c: Card -> c.sideB.joinToString(" / ") }
+        )
+        PracticeDirection.B_TO_A -> (
+            { c: Card -> c.sideB.first() } to
+            { c: Card -> c.sideA }
+        )
     }
 
     Column(
