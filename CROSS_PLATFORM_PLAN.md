@@ -96,10 +96,12 @@ LanguageCards/
   - On iOS: pass an `onExit` that calls the iOS equivalent (e.g. exit or dismiss) from the iOS app.
 - Replace `lifecycleScope` with a shared `CoroutineScope` (e.g. from a `Composable`-scoped `rememberCoroutineScope()` or a ViewModel that’s provided from the app layer).
 
-### Phase 4: Platform App Shells
+### Phase 4: Platform App Shells ✅
 
 - **Android:** `MainActivity` sets `setContent { App(statsStore = androidStatsStore, onExit = { finish() }) }` (or injects these from a small Android-specific module).
 - **iOS:** Create the iOS app target; from Swift/ObjC call into shared Kotlin and show the Compose UI in the host view; provide the iOS `StatsStore` implementation and `onExit` there.
+
+**Implemented:** Android shell in `androidApp/MainActivity.kt` (already in place). iOS: `shared/iosMain/.../MainViewController.kt` exposes `MainViewController()` using `IosStatsStore` and `onExit = { exitProcess(0) }`; `iosApp/iosApp/` contains SwiftUI host (`ContentView.swift`, `LanguageCardsApp.swift`) that presents it. See `iosApp/README.md` for Xcode setup.
 
 ### Phase 5: Polish
 

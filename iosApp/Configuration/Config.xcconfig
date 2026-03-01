@@ -1,0 +1,5 @@
+// Path to the shared framework built by Gradle.
+// From repo root, run: ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
+// Then the framework is at: shared/build/bin/iosSimulatorArm64/releaseFramework/shared.framework
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/../../shared/build/bin/iosSimulatorArm64/releaseFramework $(PROJECT_DIR)/../../shared/build/bin/iosArm64/releaseFramework
+OTHER_LDFLAGS = $(inherited) -framework shared

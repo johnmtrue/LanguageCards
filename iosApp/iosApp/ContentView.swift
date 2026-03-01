@@ -1,0 +1,23 @@
+import SwiftUI
+import shared
+
+struct ContentView: View {
+    var body: some View {
+        ComposeView()
+            .ignoresSafeArea()
+    }
+}
+
+/// Wraps the shared Compose UI (MainViewController) so it can be used in SwiftUI.
+/// The Kotlin export name may be `MainViewController_iosKt` or `MainViewControllerKt` depending on the K/N version.
+struct ComposeView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        return MainViewController_iosKt.MainViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+#Preview {
+    ContentView()
+}
