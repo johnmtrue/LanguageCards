@@ -34,6 +34,7 @@ import net.thetrues.languagecards.model.SessionState
 import net.thetrues.languagecards.model.StatsStore
 import net.thetrues.languagecards.session.SessionFlow
 import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
+import androidx.lifecycle.lifecycleScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,9 @@ class MainActivity : ComponentActivity() {
                 // Session state: null = show Start screen; non-null = in session (cards or summary).
                 // Hit/miss values persist for the session (state.results + statsStore).
                 var sessionState by remember { mutableStateOf<SessionState?>(null) }
-                val statsStore = remember { StatsStore() }
+                val statsStore = remember {
+                    StatsStore(applicationContext, lifecycleScope)
+                }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     when {
                         sessionState == null -> StartScreen(
@@ -52,6 +55,7 @@ class MainActivity : ComponentActivity() {
                             onStart = { deck, direction ->
                                 sessionState = SessionFlow.startSession(deck, direction)
                             },
+                            onExit = { finish() },
                             modifier = Modifier.padding(innerPadding),
                         )
                         sessionState!!.isAtSummary -> SummaryScreen(
@@ -79,6 +83,7 @@ class MainActivity : ComponentActivity() {
 private fun StartScreen(
     decks: List<Deck>,
     onStart: (Deck, PracticeDirection) -> Unit,
+    onExit: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedDeck by remember { mutableStateOf(decks.first()) }
@@ -145,6 +150,9 @@ private fun StartScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = { onStart(selectedDeck, selectedDirection) }) {
             Text("Start")
+        }
+        Button(onClick = onExit) {
+            Text("Exit")
         }
     }
 }
