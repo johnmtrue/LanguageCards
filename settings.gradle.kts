@@ -23,4 +23,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "LanguageCards"
-include(":app")
+include(":shared")
+include(":androidApp")
