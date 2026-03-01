@@ -1,15 +1,31 @@
 package net.thetrues.languagecards.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import net.thetrues.languagecards.data.SampleData
 import net.thetrues.languagecards.model.SessionState
 import net.thetrues.languagecards.repository.StatsRepository
@@ -19,19 +35,63 @@ import net.thetrues.languagecards.ui.screens.StartScreen
 import net.thetrues.languagecards.ui.screens.SummaryScreen
 import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
 
+private const val APP_VERSION = "0.1"
+
 /**
  * Shared entry point for the Language Cards app.
  * [statsStore] is provided by the platform (Android DataStore, iOS DataStore).
  * [onExit] is invoked when the user taps Exit (e.g. activity.finish() on Android).
+ * [authorName] is shown in the About dialog (default: "Your Name").
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     statsStore: StatsRepository,
     onExit: () -> Unit,
+    authorName: String = "Your Name",
 ) {
     LanguageCardsTheme {
         var sessionState by remember { mutableStateOf<SessionState?>(null) }
-        Scaffold(modifier = Modifier.fillMaxSize().safeContentPadding()) { innerPadding ->
+        var menuExpanded by remember { mutableStateOf(false) }
+        var aboutDialogShown by remember { mutableStateOf(false) }
+        val year = 2026
+        Scaffold(
+            modifier = Modifier.fillMaxSize().safeContentPadding(),
+            topBar = {
+                TopAppBar(
+                    title = { Text("Language Cards") },
+                    actions = {
+                        Box {
+                            IconButton(onClick = { menuExpanded = true }) {
+                                Icon(
+                                    imageVector = Icons.Filled.MoreVert,
+                                    contentDescription = "Menu",
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = menuExpanded,
+                                onDismissRequest = { menuExpanded = false },
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("About") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        aboutDialogShown = true
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Exit") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        onExit()
+                                    },
+                                )
+                            }
+                        }
+                    },
+                )
+            },
+        ) { innerPadding ->
             when {
                 sessionState == null -> StartScreen(
                     decks = SampleData.decks,
@@ -56,6 +116,26 @@ fun App(
                     modifier = Modifier.padding(innerPadding),
                 )
             }
+        }
+        if (aboutDialogShown) {
+            AlertDialog(
+                onDismissRequest = { aboutDialogShown = false },
+                title = { Text("About Language Cards") },
+                text = {
+                    Column {
+                        Text("Version $APP_VERSION")
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(authorName)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("© $year $authorName. All rights reserved.")
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { aboutDialogShown = false }) {
+                        Text("OK")
+                    }
+                },
+            )
         }
     }
 }

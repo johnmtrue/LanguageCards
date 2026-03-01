@@ -21,5 +21,6 @@ fun MainViewController(): UIViewController = ComposeUIViewController {
     App(
         statsStore = statsStore,
         onExit = { exitProcess(0) },
+        authorName = "John True",
     )
 }

@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
             App(
                 statsStore = statsStore,
                 onExit = { finish() },
+                authorName = "John True",
             )
         }
     }
