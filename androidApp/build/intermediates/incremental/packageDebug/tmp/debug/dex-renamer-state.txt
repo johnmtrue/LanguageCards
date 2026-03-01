@@ -1,19 +1,19 @@
-#Sat Feb 28 20:37:39 PST 2026
-base.0=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\14\\classes.dex
-base.2=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\15\\classes.dex
-base.3=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\4\\classes.dex
-base.4=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.5=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\15\\classes.dex
-base.6=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.7=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\5\\classes.dex
-base.8=C\:\\Users\\johnm\\OneDrive\\Projects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Sat Feb 28 21:23:43 PST 2026
+base.0=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\14\\classes.dex
+base.2=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\15\\classes.dex
+base.3=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\4\\classes.dex
+base.4=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\5\\classes.dex
+base.5=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.6=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.7=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\5\\classes.dex
+base.8=C\:\\Users\\johnm\\AndroidStudioProjects\\LanguageCards\\androidApp\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=14/classes.dex
 path.2=15/classes.dex
 path.3=4/classes.dex
-path.4=0/classes.dex
-path.5=15/classes.dex
+path.4=5/classes.dex
+path.5=0/classes.dex
 path.6=2/classes.dex
 path.7=5/classes.dex
 path.8=classes2.dex

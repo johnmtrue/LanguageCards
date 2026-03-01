@@ -32,7 +32,8 @@ import net.thetrues.languagecards.model.Card
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SessionState
-import net.thetrues.languagecards.model.StatsStore
+import net.thetrues.languagecards.platform.AndroidStatsStore
+import net.thetrues.languagecards.repository.StatsRepository
 import net.thetrues.languagecards.session.SessionFlow
 import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
 
@@ -43,8 +44,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             LanguageCardsTheme {
                 var sessionState by remember { mutableStateOf<SessionState?>(null) }
-                val statsStore = remember {
-                    StatsStore(applicationContext, lifecycleScope)
+                val statsStore: StatsRepository = remember {
+                    AndroidStatsStore(applicationContext, lifecycleScope)
                 }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     when {

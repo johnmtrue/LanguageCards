@@ -25,5 +25,14 @@ kotlin {
         commonMain.dependencies {
             implementation(kotlin("stdlib"))
         }
+        androidMain.dependencies {
+            api(libs.androidx.datastore.preferences)
+        }
+        iosMain.dependencies {
+            implementation(libs.androidx.datastore.preferences.core)
+            implementation(libs.androidx.datastore.core.okio)
+            implementation(libs.okio)
+            implementation(libs.kotlinx.coroutines.core)
+        }
     }
 }
