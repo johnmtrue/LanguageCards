@@ -2,6 +2,7 @@ package net.thetrues.languagecards.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +31,7 @@ fun App(
 ) {
     LanguageCardsTheme {
         var sessionState by remember { mutableStateOf<SessionState?>(null) }
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Scaffold(modifier = Modifier.fillMaxSize().safeContentPadding()) { innerPadding ->
             when {
                 sessionState == null -> StartScreen(
                     decks = SampleData.decks,

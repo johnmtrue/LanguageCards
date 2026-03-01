@@ -103,7 +103,7 @@ LanguageCards/
 
 **Implemented:** Android shell in `androidApp/MainActivity.kt` (already in place). iOS: `shared/iosMain/.../MainViewController.kt` exposes `MainViewController()` using `IosStatsStore` and `onExit = { exitProcess(0) }`; `iosApp/iosApp/` contains SwiftUI host (`ContentView.swift`, `LanguageCardsApp.swift`) that presents it. See `iosApp/README.md` for Xcode setup.
 
-### Phase 5: Polish
+### Phase 5: Polish ✅
 
 - Move strings to `commonMain` resources (Compose Multiplatform resources) so they can be localized later.
 - Unify theme (colors, typography) in shared code; use `ComposeTheme` (or your theme name) in both apps.

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">Language Cards</string>
+    <string name="deck">Deck</string>
+    <string name="practice_direction">Practice direction</string>
+    <string name="direction_a_to_b">English → French</string>
+    <string name="direction_b_to_a">French → English</string>
+    <string name="start">Start</string>
+    <string name="exit">Exit</string>
+    <string name="i_know">I know</string>
+    <string name="show_answer">Show answer</string>
+    <string name="continue_btn">Continue</string>
+    <string name="i_was_right">I was right</string>
+    <string name="i_was_wrong">I was wrong</string>
+    <string name="session_complete">Session complete</string>
+    <string name="cards_count">Cards: %1$d</string>
+    <string name="hits_count">Hits: %1$d</string>
+    <string name="misses_count">Misses: %1$d</string>
+    <string name="missed_words">Missed words</string>
+    <string name="practice_again">Practice again</string>
+</resources>

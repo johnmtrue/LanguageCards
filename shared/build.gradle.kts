@@ -10,6 +10,8 @@ kotlin {
         namespace = "net.thetrues.languagecards.shared"
         compileSdk = 36
         minSdk = 35
+        @Suppress("UnusedPrivateMember")
+        androidResources.enable = true
     }
 
     listOf(
@@ -30,6 +32,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.components.resources)
         }
         androidMain.dependencies {
             api(libs.androidx.datastore.preferences)
@@ -41,4 +44,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
         }
     }
+}
+
+compose.resources {
+    packageOfResClass = "net.thetrues.languagecards.shared.generated.resources"
 }

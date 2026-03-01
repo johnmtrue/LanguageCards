@@ -1,5 +1,9 @@
 package net.thetrues.languagecards.ui.theme
 
+/**
+ * Single theme for the app on all platforms (Android and iOS).
+ * Colors and typography are defined in Color.kt and Type.kt in this package.
+ */
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

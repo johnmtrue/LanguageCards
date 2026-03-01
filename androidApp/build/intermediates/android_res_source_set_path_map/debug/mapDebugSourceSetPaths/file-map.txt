@@ -52,4 +52,4 @@ net.thetrues.languagecards.androidApp-packageDebugResources-50 C:\Users\johnm\An
 net.thetrues.languagecards.androidApp-debug-51 C:\Users\johnm\AndroidStudioProjects\LanguageCards\androidApp\build\intermediates\merged_res\debug\mergeDebugResources
 net.thetrues.languagecards.androidApp-debug-52 C:\Users\johnm\AndroidStudioProjects\LanguageCards\androidApp\src\debug\res
 net.thetrues.languagecards.androidApp-main-53 C:\Users\johnm\AndroidStudioProjects\LanguageCards\androidApp\src\main\res
-net.thetrues.languagecards.androidApp-generateAndroidMainEmptyResourceFiles-54 C:\Users\johnm\AndroidStudioProjects\LanguageCards\shared\build\intermediates\packaged_res\androidMain\generateAndroidMainEmptyResourceFiles\res
+net.thetrues.languagecards.androidApp-packageAndroidMainResources-54 C:\Users\johnm\AndroidStudioProjects\LanguageCards\shared\build\intermediates\packaged_res\androidMain\packageAndroidMainResources\res
