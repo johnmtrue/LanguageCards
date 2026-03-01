@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.compose)
 }
 
 kotlin {
@@ -24,6 +26,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(kotlin("stdlib"))
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.uiToolingPreview)
         }
         androidMain.dependencies {
             api(libs.androidx.datastore.preferences)
