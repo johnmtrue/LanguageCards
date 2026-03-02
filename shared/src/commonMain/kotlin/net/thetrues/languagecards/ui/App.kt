@@ -94,7 +94,7 @@ fun App(
         ) { innerPadding ->
             when {
                 sessionState == null -> StartScreen(
-                    decks = SampleData.decks,
+                    languageCombinations = SampleData.languageCombinations,
                     onStart = { deck, direction ->
                         sessionState = SessionFlow.startSession(deck, direction)
                     },

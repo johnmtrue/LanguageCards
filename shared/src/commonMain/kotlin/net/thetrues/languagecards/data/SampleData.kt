@@ -2,9 +2,10 @@ package net.thetrues.languagecards.data
 
 import net.thetrues.languagecards.model.Card
 import net.thetrues.languagecards.model.Deck
+import net.thetrues.languagecards.model.LanguageCombination
 
 /**
- * Hardcoded French/English deck and cards for the prototype.
+ * Hardcoded language combinations and decks for the prototype.
  */
 object SampleData {
     private val cards = listOf(
@@ -105,20 +106,55 @@ object SampleData {
         Card("pt-20", "I had", "J'ai eu"),
     )
 
-    /** French basics deck. */
-    val defaultDeck: Deck = Deck(
+    private val frenchBasicsDeck = Deck(
         id = "french-1",
         name = "French — Basics",
         cards = cards,
     )
 
-    /** French past tense verb phrases deck. */
-    val pastTenseDeck: Deck = Deck(
+    private val frenchPastTenseDeck = Deck(
         id = "french-past",
         name = "French - Past Tense",
         cards = pastTenseCards,
     )
 
-    /** All available decks. */
-    val decks: List<Deck> = listOf(defaultDeck, pastTenseDeck)
+    private val spanishBasicsCards = listOf(
+        Card("es-1", "Hello", "Hola"),
+        Card("es-2", "Thank you", "Gracias"),
+        Card("es-3", "Goodbye", "Adiós"),
+        Card("es-4", "Yes", "Sí"),
+        Card("es-5", "No", "No"),
+        Card("es-6", "Please", "Por favor"),
+        Card("es-7", "Water", "Agua"),
+        Card("es-8", "Coffee", "Café"),
+        Card("es-9", "Bread", "Pan"),
+        Card("es-10", "Help", "Ayuda"),
+    )
+
+    private val spanishBasicsDeck = Deck(
+        id = "spanish-1",
+        name = "Spanish — Basics",
+        cards = spanishBasicsCards,
+    )
+
+    /** All language combinations. Decks are grouped under each combination. */
+    val languageCombinations: List<LanguageCombination> = listOf(
+        LanguageCombination(
+            id = "en-fr",
+            name = "English – French",
+            sideAName = "English",
+            sideBName = "French",
+            decks = listOf(frenchBasicsDeck, frenchPastTenseDeck),
+        ),
+        LanguageCombination(
+            id = "en-es",
+            name = "English – Spanish",
+            sideAName = "English",
+            sideBName = "Spanish",
+            decks = listOf(spanishBasicsDeck),
+        ),
+    )
+
+    /** All decks (flattened). For backwards compatibility until Phase 2/3. */
+    val decks: List<Deck> = languageCombinations.flatMap { it.decks }
 }
