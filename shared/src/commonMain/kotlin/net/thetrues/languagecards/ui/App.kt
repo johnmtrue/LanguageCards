@@ -15,6 +15,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,6 +33,7 @@ import net.thetrues.languagecards.repository.StatsRepository
 import net.thetrues.languagecards.session.SessionFlow
 import net.thetrues.languagecards.ui.screens.CardScreen
 import net.thetrues.languagecards.ui.screens.StartScreen
+import net.thetrues.languagecards.ui.screens.StatsScreen
 import net.thetrues.languagecards.ui.screens.SummaryScreen
 import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
 
@@ -54,6 +56,8 @@ fun App(
         var sessionState by remember { mutableStateOf<SessionState?>(null) }
         var menuExpanded by remember { mutableStateOf(false) }
         var aboutDialogShown by remember { mutableStateOf(false) }
+        var statsScreenShown by remember { mutableStateOf(false) }
+        var clearStatsDialogShown by remember { mutableStateOf(false) }
         val year = 2026
         Scaffold(
             modifier = Modifier.fillMaxSize().safeContentPadding(),
@@ -80,6 +84,20 @@ fun App(
                                     },
                                 )
                                 DropdownMenuItem(
+                                    text = { Text("Stats") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        statsScreenShown = true
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Clear stats") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        clearStatsDialogShown = true
+                                    },
+                                )
+                                DropdownMenuItem(
                                     text = { Text("Exit") },
                                     onClick = {
                                         menuExpanded = false
@@ -92,29 +110,38 @@ fun App(
                 )
             },
         ) { innerPadding ->
-            when {
-                sessionState == null -> StartScreen(
-                    languageCombinations = SampleData.languageCombinations,
-                    onStart = { deck, direction ->
-                        sessionState = SessionFlow.startSession(deck, direction)
-                    },
-                    onExit = onExit,
-                    modifier = Modifier.padding(innerPadding),
-                )
-                sessionState!!.isAtSummary -> SummaryScreen(
-                    state = sessionState!!,
-                    onPracticeAgain = { sessionState = null },
-                    onExit = onExit,
-                    modifier = Modifier.padding(innerPadding),
-                )
-                else -> CardScreen(
-                    state = sessionState!!,
-                    onAnswer = { cardId, wasHit ->
-                        statsStore.record(cardId, wasHit)
-                        sessionState = SessionFlow.recordAnswer(sessionState!!, cardId, wasHit)
-                    },
-                    modifier = Modifier.padding(innerPadding),
-                )
+            Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+                when {
+                    sessionState == null -> StartScreen(
+                        languageCombinations = SampleData.languageCombinations,
+                        onStart = { deck, direction ->
+                            sessionState = SessionFlow.startSession(deck, direction)
+                        },
+                        onExit = onExit,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                    sessionState!!.isAtSummary -> SummaryScreen(
+                        state = sessionState!!,
+                        onPracticeAgain = { sessionState = null },
+                        onExit = onExit,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                    else -> CardScreen(
+                        state = sessionState!!,
+                        onAnswer = { cardId, wasHit ->
+                            statsStore.record(cardId, wasHit)
+                            sessionState = SessionFlow.recordAnswer(sessionState!!, cardId, wasHit)
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                if (statsScreenShown) {
+                    StatsScreen(
+                        stats = statsStore.getAllStats(),
+                        onDismiss = { statsScreenShown = false },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
         if (aboutDialogShown) {
@@ -133,6 +160,30 @@ fun App(
                 confirmButton = {
                     TextButton(onClick = { aboutDialogShown = false }) {
                         Text("OK")
+                    }
+                },
+            )
+        }
+        if (clearStatsDialogShown) {
+            AlertDialog(
+                onDismissRequest = { clearStatsDialogShown = false },
+                title = { Text("Clear all stats?") },
+                text = {
+                    Text("This will permanently delete all practice history. This cannot be undone.")
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            statsStore.clearAllStats()
+                            clearStatsDialogShown = false
+                        },
+                    ) {
+                        Text("Clear", color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { clearStatsDialogShown = false }) {
+                        Text("Cancel")
                     }
                 },
             )

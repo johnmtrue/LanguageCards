@@ -9,4 +9,6 @@ import net.thetrues.languagecards.model.CardStats
 interface StatsRepository {
     fun record(cardId: String, wasHit: Boolean)
     fun getStats(cardId: String): CardStats?
+    fun getAllStats(): List<CardStats>
+    fun clearAllStats()
 }

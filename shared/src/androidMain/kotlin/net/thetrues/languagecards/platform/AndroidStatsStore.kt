@@ -43,6 +43,15 @@ class AndroidStatsStore(
 
     override fun getStats(cardId: String): CardStats? = statsByCardId[cardId]
 
+    override fun getAllStats(): List<CardStats> = statsByCardId.values.toList()
+
+    override fun clearAllStats() {
+        statsByCardId.clear()
+        scope.launch {
+            saveToDataStore()
+        }
+    }
+
     private suspend fun loadFromDataStore() {
         val prefs = context.statsDataStore.data.first()
         val serialized = prefs[stringPreferencesKey(STATS_KEY)] ?: return
@@ -54,7 +63,8 @@ class AndroidStatsStore(
 
     private suspend fun saveToDataStore() {
         context.statsDataStore.edit { prefs ->
-            prefs[stringPreferencesKey(STATS_KEY)] = serialize(statsByCardId.values.toList())
+            val serialized = if (statsByCardId.isEmpty()) "" else serialize(statsByCardId.values.toList())
+            prefs[stringPreferencesKey(STATS_KEY)] = serialized
         }
     }
 
