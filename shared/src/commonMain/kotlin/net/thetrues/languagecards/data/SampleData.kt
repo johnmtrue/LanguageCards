@@ -118,6 +118,27 @@ object SampleData {
         cards = pastTenseCards,
     )
 
+    private val frenchConversationCards = listOf(
+        Card("fc-1", "How are you?", listOf("Comment allez-vous?", "Comment vas-tu?")),
+        Card("fc-2", "How's it going?", listOf("Comment ça va?", "Ça va?")),
+        Card("fc-3", "Is everything OK?", listOf("Tout va bien?", "Tout est OK?")),
+        Card("fc-4", "everything is OK", listOf("Tout va bien", "Ça va")),
+        Card("fc-5", "I'm not bad", "Je ne vais pas mal"),
+        Card("fc-6", "I am doing well", "Je vais bien"),
+        Card("fc-7", "I am doing very well", "Je vais très bien"),
+        Card("fc-8", "I see", "Je vois"),
+        Card("fc-9", "I understand", listOf("Je comprends", "Je pige")),
+        Card("fc-10", "Thanks for", listOf("Merci pour", "Merci de")),
+        Card("fc-11", "Yes he is", listOf("Oui, il l'est", "C'est ça")),
+        Card("fc-12", "Don't mention it", listOf("De rien", "Pas de quoi", "Je vous en prie")),
+    )
+
+    private val frenchConversationDeck = Deck(
+        id = "french-conversation",
+        name = "French - Conversation",
+        cards = frenchConversationCards,
+    )
+
     private val spanishBasicsCards = listOf(
         Card("es-1", "Hello", "Hola"),
         Card("es-2", "Thank you", "Gracias"),
@@ -144,7 +165,7 @@ object SampleData {
             name = "English – French",
             sideAName = "English",
             sideBName = "French",
-            decks = listOf(frenchBasicsDeck, frenchPastTenseDeck),
+            decks = listOf(frenchBasicsDeck, frenchPastTenseDeck, frenchConversationDeck),
         ),
         LanguageCombination(
             id = "en-es",
