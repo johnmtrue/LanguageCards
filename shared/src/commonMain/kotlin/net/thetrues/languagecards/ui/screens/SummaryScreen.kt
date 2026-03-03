@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import net.thetrues.languagecards.model.Card
+import net.thetrues.languagecards.model.CardLine
 import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SessionState
 
@@ -63,7 +64,12 @@ fun SummaryScreen(
                 style = MaterialTheme.typography.titleMedium,
             )
             for (card in missedCards) {
-                Text(text = "${promptSide(card)} → ${answerSide(card)}")
+                MissedCardDisplay(
+                    card = card,
+                    direction = state.direction,
+                    promptSide = promptSide,
+                    answerSide = answerSide,
+                )
             }
         }
 
@@ -74,5 +80,31 @@ fun SummaryScreen(
         Button(onClick = onExit) {
             Text("Exit")
         }
+    }
+}
+
+@Composable
+private fun MissedCardDisplay(
+    card: Card,
+    direction: PracticeDirection,
+    promptSide: (Card) -> String,
+    answerSide: (Card) -> String,
+) {
+    val contextLines = card.lines.dropLast(1)
+    val answerSideText: (CardLine) -> String = when (direction) {
+        PracticeDirection.A_TO_B -> { line -> line.sideB.joinToString(" / ") }
+        PracticeDirection.B_TO_A -> { line -> line.sideA }
+    }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        for (line in contextLines) {
+            Text(
+                text = answerSideText(line),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+        Text(text = "${promptSide(card)} → ${answerSide(card)}")
     }
 }

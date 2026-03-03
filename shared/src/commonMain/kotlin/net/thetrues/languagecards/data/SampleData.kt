@@ -1,6 +1,7 @@
 package net.thetrues.languagecards.data
 
 import net.thetrues.languagecards.model.Card
+import net.thetrues.languagecards.model.CardLine
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.LanguageCombination
 
@@ -120,6 +121,13 @@ object SampleData {
 
     private val frenchConversationCards = listOf(
         Card("fc-1", "How are you?", listOf("Comment allez-vous?", "Comment vas-tu?")),
+        Card(
+            id = "fc-d1",
+            lines = listOf(
+                CardLine("Hi, Paul. Is everything going well?", "Salut, Paul, Ça va bien?"),
+                CardLine("Very well / Great, thanks", "Très bien, merci"),
+            ),
+        ),
         Card("fc-2", "How's it going?", listOf("Comment ça va?", "Ça va?")),
         Card("fc-3", "Is everything OK?", listOf("Tout va bien?", "Tout est OK?")),
         Card("fc-4", "everything is OK", listOf("Tout va bien", "Ça va")),
