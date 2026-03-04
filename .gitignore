@@ -1,6 +1,11 @@
 *.iml
 .gradle
 /local.properties
+*.keystore
+*.jks
+secrets/
+.env
+.env.*
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml

@@ -10,16 +10,12 @@ This document outlines tasks to complete before making the LanguageCards project
 
 ### 2.1 Verify .gitignore Coverage
 
-**Current state:** `.gitignore` already excludes:
-- `local.properties` (Android SDK path — can contain user-specific paths)
-- `/build`, `shared/build`, `androidApp/build`, `iosApp/build`
-- `.gradle`, `.idea` caches, workspace, libraries
-- `.DS_Store`, `*.iml`
+**Current state:** ✅ `.gitignore` excludes `local.properties`, build dirs, `.gradle`, `.idea`, plus `*.keystore`, `*.jks`, `secrets/`, `.env`, `.env.*`.
 
 **Actions:**
-- [ ] Confirm `local.properties` is never committed (run `git status` after a fresh clone; it should not appear)
-- [ ] Add `*.keystore` and `*.jks` if you ever add signing config (prevents accidental commit of signing keys)
-- [ ] Add `secrets/` or `.env` if you introduce environment variables or API keys later
+- [x] Confirm `local.properties` is never committed (run `git status` after a fresh clone; it should not appear)
+- [x] Add `*.keystore` and `*.jks` if you ever add signing config (prevents accidental commit of signing keys)
+- [x] Add `secrets/` or `.env` if you introduce environment variables or API keys later
 
 ### 2.2 Scan for Sensitive Content
 
@@ -28,9 +24,9 @@ This document outlines tasks to complete before making the LanguageCards project
 - Author name "John True" is hardcoded in `MainActivity.kt` and `MainViewController.kt` — this is intentional attribution, not sensitive
 
 **Actions:**
-- [ ] Decide: keep "John True" as author (fine for public) or make it configurable/build-time
-- [ ] Run `git log` and ensure no commits contain passwords, keys, or internal URLs
-- [ ] If any sensitive history exists, consider `git filter-branch` or BFG Repo-Cleaner (only if necessary)
+- [x] Decide: keep "John True" as author (fine for public) or make it configurable/build-time
+- [x] Run `git log` and ensure no commits contain passwords, keys, or internal URLs
+- [x] If any sensitive history exists, consider `git filter-branch` or BFG Repo-Cleaner (only if necessary)
 
 ---
 
@@ -89,11 +85,11 @@ This document outlines tasks to complete before making the LanguageCards project
 
 ### 4.1 Build Artifacts
 
-**Current state:** `build/` directories are in `.gitignore`. Git status shows untracked build files (e.g. `androidApp/build/...`).
+**Current state:** ✅ `build/` directories are in `.gitignore`. No build artifacts are tracked.
 
 **Actions:**
-- [ ] Run `git status` and ensure no build artifacts are staged or committed
-- [ ] If any were committed historically, add to `.gitignore` and remove from tracking:  
+- [x] Run `git status` and ensure no build artifacts are staged or committed
+- [x] If any were committed historically, add to `.gitignore` and remove from tracking:  
   `git rm -r --cached androidApp/build shared/build` (etc.)
 
 ### 4.2 IDE and Tooling
@@ -101,17 +97,17 @@ This document outlines tasks to complete before making the LanguageCards project
 **Current state:** `.idea/` is partially ignored (workspace, caches, etc.). Some `.idea` files are tracked (e.g. `gradle.xml`, `runConfigurations.xml`).
 
 **Actions:**
-- [ ] Review tracked `.idea` files — `gradle.xml` and `misc.xml` use `$PROJECT_DIR$` (portable). Keeping them can help contributors.
-- [ ] Ensure `.idea/workspace.xml` and user-specific files are ignored (already in `.idea/.gitignore` for workspace)
-- [ ] Consider adding `.idea/` to root `.gitignore` if you prefer a clean repo (some projects do; others keep shared config)
+- [x] Review tracked `.idea` files — `gradle.xml` and `misc.xml` use `$PROJECT_DIR$` (portable). Keeping them can help contributors.
+- [x] Ensure `.idea/workspace.xml` and user-specific files are ignored (already in `.idea/.gitignore` for workspace)
+- [x] Consider adding `.idea/` to root `.gitignore` if you prefer a clean repo (considered; keeping `.idea` for contributor convenience)
 
 ### 4.3 Gradle Wrapper
 
-**Current state:** `gradlew`, `gradlew.bat`, and `gradle/wrapper/gradle-wrapper.properties` exist. Wrapper is standard for public repos.
+**Current state:** ✅ `gradlew` has executable bit set; Gradle 9.2.1 is stable.
 
 **Actions:**
-- [ ] Ensure `gradlew` and `gradlew.bat` are executable (`chmod +x gradlew` on Unix)
-- [ ] Verify `gradle-wrapper.properties` uses a stable Gradle version (currently 9.2.1)
+- [x] Ensure `gradlew` and `gradlew.bat` are executable (`chmod +x gradlew` on Unix)
+- [x] Verify `gradle-wrapper.properties` uses a stable Gradle version (currently 9.2.1)
 
 ### 4.4 iOS App in Settings
 
@@ -127,26 +123,26 @@ This document outlines tasks to complete before making the LanguageCards project
 
 ### 5.1 Author Attribution
 
-**Current state:** `authorName = "John True"` in `MainActivity.kt` and `MainViewController.kt`.
+**Current state:** ✅ `authorName = "John True"` kept; About dialog now says "Licensed under MIT" (aligned with LICENSE).
 
 **Actions:**
-- [ ] Keep as-is for attribution, or move to a shared constant/build config if you want it configurable
-- [ ] Ensure "All rights reserved" in About dialog aligns with chosen license (e.g. MIT says "without restriction")
+- [x] Keep as-is for attribution, or move to a shared constant/build config if you want it configurable
+- [x] Ensure "All rights reserved" in About dialog aligns with chosen license (e.g. MIT says "without restriction")
 
 ### 5.2 Package and Application ID
 
 **Current state:** `net.thetrues.languagecards` — fine for public use.
 
 **Actions:**
-- [ ] No change needed unless you want a different domain/namespace
+- [x] No change needed unless you want a different domain/namespace
 
 ### 5.3 Sample Data
 
 **Current state:** `SampleData.kt` contains hardcoded French and Spanish cards. Content is educational, not sensitive.
 
 **Actions:**
-- [ ] No change needed for public release
-- [ ] Consider adding a short comment that content is sample/example data
+- [x] No change needed for public release
+- [x] Consider adding a short comment that content is sample/example data
 
 ---
 
@@ -154,17 +150,21 @@ This document outlines tasks to complete before making the LanguageCards project
 
 ### 6.1 Repository Settings
 
-**Actions (after creating the repo):**
+**Actions (after creating the repo):** *(Manual steps in GitHub UI)*
 - [ ] Add description and topics (e.g. `kotlin-multiplatform`, `compose-multiplatform`, `flashcards`, `language-learning`)
 - [ ] Set up branch protection for `main` (optional: require PR reviews)
 - [ ] Enable Issues and optionally Projects
-- [ ] Add a GitHub Actions workflow for CI (e.g. build Android on push) — optional but recommended
+- [x] Add a GitHub Actions workflow for CI (e.g. build Android on push) — optional but recommended
+
+**Suggested repo description:** `Flashcard app for learning vocabulary (English ↔ French/Spanish). Kotlin Multiplatform + Compose.`
+
+**Suggested topics:** `kotlin-multiplatform`, `compose-multiplatform`, `flashcards`, `language-learning`, `android`, `ios`
 
 ### 6.2 Initial Commit / Push
 
 **Actions:**
-- [ ] Ensure working tree is clean: `git status`, `git diff`
-- [ ] Run a final build: `./gradlew :androidApp:assembleDebug` (and iOS if on macOS)
+- [ ] Ensure working tree is clean: `git status`, `git diff` — commit all changes before pushing
+- [ ] Run a final build: `./gradlew :androidApp:assembleDebug` (and iOS if on macOS) — CI will run on push
 - [ ] Create initial release tag (e.g. `v0.1.0`) after first push — optional
 
 ---
@@ -173,14 +173,14 @@ This document outlines tasks to complete before making the LanguageCards project
 
 | Category | Task | Priority | Status |
 |----------|------|----------|--------|
-| **Security** | Verify .gitignore; no secrets in history | High | |
+| **Security** | Verify .gitignore; no secrets in history | High | ✅ |
 | **Documentation** | Create root README.md | High | ✅ |
 | **Legal** | Add LICENSE file | High | ✅ |
 | **Documentation** | Create CONTRIBUTING.md | Medium | ✅ |
 | **Hygiene** | Ensure no build artifacts committed | High | |
 | **Documentation** | Organize or document plan files (SPEC, etc.) | Low | ✅ |
 | **GitHub** | Add repo description, topics | Medium | |
-| **CI** | Add GitHub Actions build (optional) | Low | |
+| **CI** | Add GitHub Actions build (optional) | Low | ✅ |
 
 ---
 

@@ -6,7 +6,8 @@ import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.LanguageCombination
 
 /**
- * Hardcoded language combinations and decks for the prototype.
+ * Hardcoded sample language combinations and decks for the prototype.
+ * Content is included for demonstration only.
  */
 object SampleData {
     private val cards = listOf(

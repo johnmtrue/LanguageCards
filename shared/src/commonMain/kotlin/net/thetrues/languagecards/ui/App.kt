@@ -154,7 +154,7 @@ fun App(
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(authorName)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("© $year $authorName. All rights reserved.")
+                        Text("© $year $authorName. Licensed under MIT.")
                     }
                 },
                 confirmButton = {
