@@ -132,7 +132,7 @@ object SampleData {
         Card(
             id = "fc-d2",
             lines = listOf(
-                CardLine("Hello, Pierre. How are you?", "Bonjour, Pierre, Comment ça va?"),
+                CardLine("Hello, Jean. How are you?", "Bonjour, Jean, Comment ça va?"),
                 CardLine("Fine, thank you", "Bien, merci"),
             ),
         ),
@@ -141,30 +141,30 @@ object SampleData {
             id = "fc-d3",
             lines = listOf(
                 CardLine("Is he going to join us?", "Il va nous rejoindre?"),
-                CardLine("Yes, he is (that's it).  At five PM.", "C'est ça. À dix-sept heures."),
+                CardLine("Yes, he is (that's it).", "C'est ça."),
             ),
         ),
         Card("fc-4", "everything is OK", listOf("Tout va bien", "Ça va")),
         Card(
             id = "fc-d4",
             lines = listOf(
-                CardLine("I can't go out.  I'm sick.", "Je ne peux pas sortir.  Je suis malade."),
-                CardLine("I see. Rest well!", "Je vois.  Repose-toi bien!"),
+                CardLine("I can't go out.  I'm busy.", "Je ne peux pas sortir.  Je suis occupé."),
+                CardLine("I see.", "Je vois."),
             ),
         ),
         Card("fc-5", "I'm not bad", listOf("pas mal", "Ça va pas mal", "Je ne vais pas mal")),
         Card(
             id = "fc-d5",
             lines = listOf(
-                CardLine("You have to use vous with people you don't know", "Il faut vouvoyer les gens qu'on ne connait pas."),
-                CardLine("Oh yes! I understand (I get it).", "Ah oui!  Je pige."),
+                CardLine("They are closed today.", "Ils sont fermés aujourd'hui."),
+                CardLine("Yes. I understand (I get it).", "Oui.  Je pige."),
             ),
         ),
         Card("fc-6", "I am doing well", "Je vais bien"),
         Card(
             id = "fc-d6",
             lines = listOf(
-                CardLine("Thanks for this card.", "Merci pour cette carte."),
+                CardLine("Thanks for the coffee.", "Merci pour le café."),
                 CardLine("Don't mention it.", "Il n'y a pas de quoi. / Pas de quoi."),
             ),
         ),
