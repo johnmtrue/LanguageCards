@@ -18,6 +18,56 @@ class SqlDelightDeckRepository(
     private val database: LanguageCardsDatabase,
 ) : DeckRepository {
 
+    override fun addDeck(deck: Deck, languageCombo: LanguageCombination) {
+        database.languageComboQueries.transaction {
+            val comboExists = database.languageComboQueries.selectById(languageCombo.id).executeAsList().isNotEmpty()
+            if (!comboExists) {
+                database.languageComboQueries.insert(
+                    id = languageCombo.id,
+                    name = languageCombo.name,
+                    side_a_name = languageCombo.sideAName,
+                    side_b_name = languageCombo.sideBName,
+                )
+            }
+            database.deckQueries.insert(
+                id = deck.id,
+                name = deck.name,
+                language_combo_id = languageCombo.id,
+            )
+            for ((index, card) in deck.cards.withIndex()) {
+                insertCard(database, deck.id, card, index)
+            }
+        }
+    }
+
+    override fun addDeckFromJson(json: String): Result<Unit> = DeckFileParser.parse(json)
+        .map { (languageCombo, deck) ->
+            addDeck(deck, languageCombo)
+        }
+
+    override fun deleteDeck(deckId: String): Boolean {
+        val deck = database.deckQueries.selectById(deckId).executeAsList().firstOrNull() ?: return false
+        val comboId = deck.language_combo_id
+        val cardIds = database.deckCardQueries.selectCardIdsByDeckId(deckId).executeAsList()
+
+        database.deckQueries.transaction {
+            for (cardId in cardIds) {
+                database.cardStatsQueries.deleteByCardId(cardId)
+            }
+            database.deckCardQueries.deleteByDeckId(deckId)
+            for (cardId in cardIds) {
+                database.cardLineQueries.deleteByCardId(cardId)
+                database.cardQueries.deleteById(cardId)
+            }
+            database.deckQueries.deleteById(deckId)
+            val remaining = database.deckQueries.countByLanguageComboId(comboId).executeAsOne()
+            if (remaining == 0L) {
+                database.languageComboQueries.deleteById(comboId)
+            }
+        }
+        return true
+    }
+
     override fun getLanguageCombinations(): List<LanguageCombination> {
         val combos = database.languageComboQueries.selectAll().executeAsList()
         return combos.map { combo ->

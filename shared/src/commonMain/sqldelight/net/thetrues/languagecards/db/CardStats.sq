@@ -32,3 +32,6 @@ VALUES (?, ?, 0, 0);
 
 deleteAll:
 DELETE FROM card_stats;
+
+deleteByCardId:
+DELETE FROM card_stats WHERE card_id = ?;

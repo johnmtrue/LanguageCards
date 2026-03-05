@@ -33,7 +33,7 @@ fun seedDatabaseIfEmpty(database: LanguageCardsDatabase) {
     }
 }
 
-private fun insertCard(database: LanguageCardsDatabase, deckId: String, card: Card, position: Int) {
+internal fun insertCard(database: LanguageCardsDatabase, deckId: String, card: Card, position: Int) {
     database.cardQueries.insert(id = card.id)
     database.deckCardQueries.insert(
         deck_id = deckId,

@@ -40,11 +40,20 @@ fun StartScreen(
     onExit: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (languageCombinations.isEmpty()) {
+        EmptyDecksScreen(onExit = onExit, modifier = modifier)
+        return
+    }
+
     val selectedCombo = languageCombinations.firstOrNull() ?: return
     var selectedComboState by remember { mutableStateOf(selectedCombo) }
     val combo = selectedComboState
     var selectedDeck by remember(combo) { mutableStateOf(combo.decks.firstOrNull()) }
-    val deck = selectedDeck ?: return
+    val deck = selectedDeck
+    if (deck == null) {
+        EmptyDecksScreen(onExit = onExit, modifier = modifier)
+        return
+    }
     var selectedDirection by remember { mutableStateOf(PracticeDirection.A_TO_B) }
 
     var comboExpanded by remember { mutableStateOf(false) }
@@ -153,6 +162,34 @@ fun StartScreen(
         Button(onClick = { onStart(deck, selectedDirection) }) {
             Text("Start")
         }
+        Button(onClick = onExit) {
+            Text("Exit")
+        }
+    }
+}
+
+@Composable
+private fun EmptyDecksScreen(
+    onExit: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "No decks",
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Import a deck file to get started, or add decks from the menu.",
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = onExit) {
             Text("Exit")
         }

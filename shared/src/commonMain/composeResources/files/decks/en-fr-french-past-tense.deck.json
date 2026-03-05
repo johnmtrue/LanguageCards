@@ -1,0 +1,34 @@
+{
+  "languageCombo": {
+    "id": "en-fr",
+    "name": "English – French",
+    "sideAName": "English",
+    "sideBName": "French"
+  },
+  "deck": {
+    "id": "french-past",
+    "name": "French - Past Tense"
+  },
+  "cards": [
+    {"id": "pt-1", "lines": [{"sideA": "I went", "sideB": ["Je suis allé"]}]},
+    {"id": "pt-2", "lines": [{"sideA": "I ate", "sideB": ["J'ai mangé"]}]},
+    {"id": "pt-3", "lines": [{"sideA": "I drank", "sideB": ["J'ai bu"]}]},
+    {"id": "pt-4", "lines": [{"sideA": "I saw", "sideB": ["J'ai vu"]}]},
+    {"id": "pt-5", "lines": [{"sideA": "I spoke", "sideB": ["J'ai parlé"]}]},
+    {"id": "pt-6", "lines": [{"sideA": "I walked", "sideB": ["J'ai marché"]}]},
+    {"id": "pt-7", "lines": [{"sideA": "I worked", "sideB": ["J'ai travaillé"]}]},
+    {"id": "pt-8", "lines": [{"sideA": "I slept", "sideB": ["J'ai dormi"]}]},
+    {"id": "pt-9", "lines": [{"sideA": "I wrote", "sideB": ["J'ai écrit"]}]},
+    {"id": "pt-10", "lines": [{"sideA": "I read", "sideB": ["J'ai lu"]}]},
+    {"id": "pt-11", "lines": [{"sideA": "I bought", "sideB": ["J'ai acheté"]}]},
+    {"id": "pt-12", "lines": [{"sideA": "I sold", "sideB": ["J'ai vendu"]}]},
+    {"id": "pt-13", "lines": [{"sideA": "I came", "sideB": ["Je suis venu"]}]},
+    {"id": "pt-14", "lines": [{"sideA": "I left", "sideB": ["Je suis parti"]}]},
+    {"id": "pt-15", "lines": [{"sideA": "I arrived", "sideB": ["Je suis arrivé"]}]},
+    {"id": "pt-16", "lines": [{"sideA": "I finished", "sideB": ["J'ai fini"]}]},
+    {"id": "pt-17", "lines": [{"sideA": "I started", "sideB": ["J'ai commencé"]}]},
+    {"id": "pt-18", "lines": [{"sideA": "I took", "sideB": ["J'ai pris"]}]},
+    {"id": "pt-19", "lines": [{"sideA": "I made", "sideB": ["J'ai fait"]}]},
+    {"id": "pt-20", "lines": [{"sideA": "I had", "sideB": ["J'ai eu"]}]}
+  ]
+}

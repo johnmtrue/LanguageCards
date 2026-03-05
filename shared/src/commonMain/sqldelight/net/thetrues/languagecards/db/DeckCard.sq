@@ -24,3 +24,6 @@ ORDER BY position;
 insert:
 INSERT OR REPLACE INTO deck_card(deck_id, card_id, position)
 VALUES (?, ?, ?);
+
+deleteByDeckId:
+DELETE FROM deck_card WHERE deck_id = ?;

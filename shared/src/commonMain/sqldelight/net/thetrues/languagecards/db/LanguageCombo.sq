@@ -21,3 +21,6 @@ VALUES (?, ?, ?, ?);
 
 selectCount:
 SELECT COUNT(*) FROM language_combo;
+
+deleteById:
+DELETE FROM language_combo WHERE id = ?;

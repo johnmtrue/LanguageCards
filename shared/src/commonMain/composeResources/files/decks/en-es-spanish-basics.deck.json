@@ -1,0 +1,24 @@
+{
+  "languageCombo": {
+    "id": "en-es",
+    "name": "English – Spanish",
+    "sideAName": "English",
+    "sideBName": "Spanish"
+  },
+  "deck": {
+    "id": "spanish-1",
+    "name": "Spanish — Basics"
+  },
+  "cards": [
+    {"id": "es-1", "lines": [{"sideA": "Hello", "sideB": ["Hola"]}]},
+    {"id": "es-2", "lines": [{"sideA": "Thank you", "sideB": ["Gracias"]}]},
+    {"id": "es-3", "lines": [{"sideA": "Goodbye", "sideB": ["Adiós"]}]},
+    {"id": "es-4", "lines": [{"sideA": "Yes", "sideB": ["Sí"]}]},
+    {"id": "es-5", "lines": [{"sideA": "No", "sideB": ["No"]}]},
+    {"id": "es-6", "lines": [{"sideA": "Please", "sideB": ["Por favor"]}]},
+    {"id": "es-7", "lines": [{"sideA": "Water", "sideB": ["Agua"]}]},
+    {"id": "es-8", "lines": [{"sideA": "Coffee", "sideB": ["Café"]}]},
+    {"id": "es-9", "lines": [{"sideA": "Bread", "sideB": ["Pan"]}]},
+    {"id": "es-10", "lines": [{"sideA": "Help", "sideB": ["Ayuda"]}]}
+  ]
+}

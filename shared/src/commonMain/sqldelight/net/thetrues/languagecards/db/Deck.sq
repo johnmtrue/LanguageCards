@@ -25,3 +25,9 @@ ORDER BY name;
 insert:
 INSERT OR REPLACE INTO deck(id, name, language_combo_id)
 VALUES (?, ?, ?);
+
+deleteById:
+DELETE FROM deck WHERE id = ?;
+
+countByLanguageComboId:
+SELECT COUNT(*) FROM deck WHERE language_combo_id = ?;

@@ -1,0 +1,50 @@
+{
+  "languageCombo": {
+    "id": "en-fr",
+    "name": "English – French",
+    "sideAName": "English",
+    "sideBName": "French"
+  },
+  "deck": {
+    "id": "french-conversation",
+    "name": "French - Conversation"
+  },
+  "cards": [
+    {"id": "fc-1", "lines": [{"sideA": "How are you?", "sideB": ["Comment allez-vous?", "Comment vas-tu?"]}]},
+    {"id": "fc-d1", "lines": [
+      {"sideA": "Hi, Paul. Is everything going well?", "sideB": ["Salut, Paul, Ça va bien?"]},
+      {"sideA": "Very well / Great, thanks", "sideB": ["Très bien, merci"]}
+    ]},
+    {"id": "fc-2", "lines": [{"sideA": "How's it going?", "sideB": ["Comment ça va?", "Ça va?"]}]},
+    {"id": "fc-d2", "lines": [
+      {"sideA": "Hello, Jean. How are you?", "sideB": ["Bonjour, Jean, Comment ça va?"]},
+      {"sideA": "Fine, thank you", "sideB": ["Bien, merci"]}
+    ]},
+    {"id": "fc-3", "lines": [{"sideA": "Is everything OK?", "sideB": ["Ça va?", "Tout va bien?", "Tout est OK?"]}]},
+    {"id": "fc-d3", "lines": [
+      {"sideA": "Is he going to join us?", "sideB": ["Il va nous rejoindre?"]},
+      {"sideA": "Yes, he is (that's it).", "sideB": ["C'est ça."]}
+    ]},
+    {"id": "fc-4", "lines": [{"sideA": "everything is OK", "sideB": ["Tout va bien", "Ça va"]}]},
+    {"id": "fc-d4", "lines": [
+      {"sideA": "I can't go out.  I'm busy.", "sideB": ["Je ne peux pas sortir.  Je suis occupé."]},
+      {"sideA": "I see.", "sideB": ["Je vois."]}
+    ]},
+    {"id": "fc-5", "lines": [{"sideA": "I'm not bad", "sideB": ["pas mal", "Ça va pas mal", "Je ne vais pas mal"]}]},
+    {"id": "fc-d5", "lines": [
+      {"sideA": "They are closed today.", "sideB": ["Ils sont fermés aujourd'hui."]},
+      {"sideA": "Yes. I understand (I get it).", "sideB": ["Oui.  Je pige."]}
+    ]},
+    {"id": "fc-6", "lines": [{"sideA": "I am doing well", "sideB": ["Je vais bien"]}]},
+    {"id": "fc-d6", "lines": [
+      {"sideA": "Thanks for the coffee.", "sideB": ["Merci pour le café."]},
+      {"sideA": "Don't mention it.", "sideB": ["Il n'y a pas de quoi. / Pas de quoi."]}
+    ]},
+    {"id": "fc-7", "lines": [{"sideA": "I am doing very well", "sideB": ["Je vais très bien"]}]},
+    {"id": "fc-8", "lines": [{"sideA": "I see", "sideB": ["Je vois"]}]},
+    {"id": "fc-9", "lines": [{"sideA": "I understand", "sideB": ["Je comprends", "Je pige"]}]},
+    {"id": "fc-10", "lines": [{"sideA": "Thanks for", "sideB": ["Merci pour", "Merci de"]}]},
+    {"id": "fc-11", "lines": [{"sideA": "Yes he is", "sideB": ["Oui, il l'est", "C'est ça"]}]},
+    {"id": "fc-12", "lines": [{"sideA": "Don't mention it", "sideB": ["De rien", "Pas de quoi", "Il n'y a pas de quoi."]}]}
+  ]
+}
