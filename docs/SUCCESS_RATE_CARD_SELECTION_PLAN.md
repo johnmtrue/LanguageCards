@@ -188,7 +188,7 @@ fun weightedSample(cards: List<Card>, weights: List<Int>, count: Int): List<Card
 - [x] Update `SessionFlow.startSession()` to use CardSelector and StatsRepository
 - [x] Update `App.kt` to pass statsStore to startSession
 - [x] Extract session size constant
-- [ ] Add unit tests for CardSelector
+- [x] Add unit tests for CardSelector
 - [ ] Manual test on Android/iOS
 
 ---
