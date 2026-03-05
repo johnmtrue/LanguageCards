@@ -42,7 +42,7 @@ fun StatsScreen(
             text = "Overall stats",
             style = MaterialTheme.typography.headlineMedium,
         )
-        Text("Cards practiced: ${stats.size}")
+        Text("Card+directions practiced: ${stats.size}")
         Text("Total hits: $totalHits")
         Text("Total misses: $totalMisses")
         if (totalAttempts > 0) {

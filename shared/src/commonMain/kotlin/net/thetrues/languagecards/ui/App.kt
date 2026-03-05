@@ -153,7 +153,7 @@ fun App(
                     else -> CardScreen(
                         state = sessionState!!,
                         onAnswer = { cardId, wasHit ->
-                            statsStore.record(cardId, wasHit)
+                            statsStore.record(cardId, sessionState!!.direction, wasHit)
                             sessionState = SessionFlow.recordAnswer(sessionState!!, cardId, wasHit)
                         },
                         modifier = Modifier.fillMaxSize(),

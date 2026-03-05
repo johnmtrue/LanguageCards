@@ -1,36 +1,34 @@
 CREATE TABLE card_stats (
-  card_id TEXT PRIMARY KEY NOT NULL REFERENCES card(id),
+  card_id TEXT NOT NULL REFERENCES card(id),
+  direction TEXT NOT NULL,
   hits INTEGER NOT NULL DEFAULT 0,
-  misses INTEGER NOT NULL DEFAULT 0
+  misses INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (card_id, direction)
 );
 
-selectByCardId:
+selectByCardIdAndDirection:
 SELECT *
 FROM card_stats
-WHERE card_id = ?;
+WHERE card_id = ? AND direction = ?;
 
 selectAll:
 SELECT *
 FROM card_stats;
 
-insertOrReplace:
-INSERT OR REPLACE INTO card_stats(card_id, hits, misses)
-VALUES (?, ?, ?);
-
 recordHit:
 UPDATE card_stats
 SET hits = hits + 1
-WHERE card_id = ?;
+WHERE card_id = ? AND direction = ?;
 
 recordMiss:
 UPDATE card_stats
 SET misses = misses + 1
-WHERE card_id = ?;
+WHERE card_id = ? AND direction = ?;
 
--- Insert row if not exists (for first record of a card)
+-- Insert row if not exists (for first record of a card+direction)
 insertIfNotExists:
-INSERT OR IGNORE INTO card_stats(card_id, hits, misses)
-VALUES (?, 0, 0);
+INSERT OR IGNORE INTO card_stats(card_id, direction, hits, misses)
+VALUES (?, ?, 0, 0);
 
 deleteAll:
 DELETE FROM card_stats;

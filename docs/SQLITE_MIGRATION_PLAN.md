@@ -262,16 +262,9 @@ implementation(libs.sqldelight.native.driver)
 
 ## 9. Optional: Per-Direction Stats (Future)
 
-The SPEC recommends per-card, per-direction stats. Current `CardStats` is per-card only. To add direction later:
+The SPEC recommends per-card, per-direction stats. Current `CardStats` is per-card only.
 
-```sql
-card_stats
-  card_id TEXT NOT NULL
-  direction TEXT NOT NULL  -- 'A_TO_B' | 'B_TO_A'
-  hits INTEGER NOT NULL DEFAULT 0
-  misses INTEGER NOT NULL DEFAULT 0
-  PRIMARY KEY (card_id, direction)
-```
+**See [PER_CARD_PER_DIRECTION_STATS_PLAN.md](PER_CARD_PER_DIRECTION_STATS_PLAN.md)** for a full implementation plan.
 
 ---
 
