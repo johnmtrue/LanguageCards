@@ -1,0 +1,20 @@
+-- side_b stores JSON array of acceptable answers, e.g. ["Bonjour","Salut"]
+CREATE TABLE card_line (
+  id TEXT PRIMARY KEY NOT NULL,
+  card_id TEXT NOT NULL REFERENCES card(id),
+  line_index INTEGER NOT NULL,
+  side_a TEXT NOT NULL,
+  side_b TEXT NOT NULL
+);
+
+CREATE INDEX card_line_card_id ON card_line(card_id);
+
+selectByCardId:
+SELECT *
+FROM card_line
+WHERE card_id = ?
+ORDER BY line_index;
+
+insert:
+INSERT OR REPLACE INTO card_line(id, card_id, line_index, side_a, side_b)
+VALUES (?, ?, ?, ?, ?);

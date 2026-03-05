@@ -1,0 +1,23 @@
+CREATE TABLE language_combo (
+  id TEXT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  side_a_name TEXT NOT NULL,
+  side_b_name TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM language_combo
+ORDER BY name;
+
+selectById:
+SELECT *
+FROM language_combo
+WHERE id = ?;
+
+insert:
+INSERT OR REPLACE INTO language_combo(id, name, side_a_name, side_b_name)
+VALUES (?, ?, ?, ?);
+
+selectCount:
+SELECT COUNT(*) FROM language_combo;

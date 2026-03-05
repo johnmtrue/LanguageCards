@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
-import androidx.lifecycle.lifecycleScope
-import net.thetrues.languagecards.platform.AndroidStatsStore
-import net.thetrues.languagecards.repository.StatsRepository
+import net.thetrues.languagecards.data.SqlDelightDeckRepository
+import net.thetrues.languagecards.data.createDatabase
+import net.thetrues.languagecards.repository.SqlDelightStatsRepository
 import net.thetrues.languagecards.ui.App
 
 class MainActivity : ComponentActivity() {
@@ -15,10 +15,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val statsStore: StatsRepository = remember {
-                AndroidStatsStore(applicationContext, lifecycleScope)
-            }
+            val database = remember { createDatabase(applicationContext) }
+            val deckRepository = remember(database) { SqlDelightDeckRepository(database) }
+            val statsStore = remember(database) { SqlDelightStatsRepository(database) }
             App(
+                deckRepository = deckRepository,
                 statsStore = statsStore,
                 onExit = { finish() },
                 authorName = "John True",

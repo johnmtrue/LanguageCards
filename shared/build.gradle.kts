@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -33,15 +34,21 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.components.resources)
+            implementation(libs.sqldelight.runtime)
         }
         androidMain.dependencies {
-            api(libs.androidx.datastore.preferences)
+            implementation(libs.sqldelight.android.driver)
         }
         iosMain.dependencies {
-            implementation(libs.androidx.datastore.preferences.core)
-            implementation(libs.androidx.datastore.core.okio)
-            implementation(libs.okio)
-            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.sqldelight.native.driver)
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("LanguageCardsDatabase") {
+            packageName.set("net.thetrues.languagecards.db")
         }
     }
 }

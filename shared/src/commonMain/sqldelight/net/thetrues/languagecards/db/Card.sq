@@ -1,0 +1,16 @@
+CREATE TABLE card (
+  id TEXT PRIMARY KEY NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM card;
+
+selectById:
+SELECT *
+FROM card
+WHERE id = ?;
+
+insert:
+INSERT OR REPLACE INTO card(id)
+VALUES (?);

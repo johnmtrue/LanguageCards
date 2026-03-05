@@ -1,0 +1,26 @@
+CREATE TABLE deck_card (
+  deck_id TEXT NOT NULL REFERENCES deck(id),
+  card_id TEXT NOT NULL REFERENCES card(id),
+  position INTEGER NOT NULL,
+  PRIMARY KEY (deck_id, card_id)
+);
+
+CREATE INDEX deck_card_deck_id ON deck_card(deck_id);
+CREATE INDEX deck_card_card_id ON deck_card(card_id);
+
+selectCardsByDeckId:
+SELECT c.*
+FROM card c
+INNER JOIN deck_card dc ON c.id = dc.card_id
+WHERE dc.deck_id = ?
+ORDER BY dc.position;
+
+selectCardIdsByDeckId:
+SELECT card_id
+FROM deck_card
+WHERE deck_id = ?
+ORDER BY position;
+
+insert:
+INSERT OR REPLACE INTO deck_card(deck_id, card_id, position)
+VALUES (?, ?, ?);

@@ -4,7 +4,7 @@ import net.thetrues.languagecards.model.CardStats
 
 /**
  * Abstraction for persisting hit/miss stats per card.
- * Implemented on Android with DataStore, on iOS with KMP DataStore.
+ * Implemented with SQLDelight (card_stats table).
  */
 interface StatsRepository {
     fun record(cardId: String, wasHit: Boolean)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,13 +22,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import net.thetrues.languagecards.data.SampleData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import net.thetrues.languagecards.data.DeckRepository
+import net.thetrues.languagecards.model.LanguageCombination
 import net.thetrues.languagecards.model.SessionState
 import net.thetrues.languagecards.repository.StatsRepository
 import net.thetrues.languagecards.session.SessionFlow
@@ -41,24 +47,34 @@ private const val APP_VERSION = "0.1"
 
 /**
  * Shared entry point for the Language Cards app.
- * [statsStore] is provided by the platform (Android DataStore, iOS DataStore).
+ * [deckRepository] loads decks from SQLite.
+ * [statsStore] persists stats to SQLite (SqlDelightStatsRepository).
  * [onExit] is invoked when the user taps Exit (e.g. activity.finish() on Android).
  * [authorName] is shown in the About dialog (default: "Your Name").
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
+    deckRepository: DeckRepository,
     statsStore: StatsRepository,
     onExit: () -> Unit,
     authorName: String = "Your Name",
 ) {
     LanguageCardsTheme {
         var sessionState by remember { mutableStateOf<SessionState?>(null) }
+        var languageCombinations by remember { mutableStateOf<List<LanguageCombination>?>(null) }
         var menuExpanded by remember { mutableStateOf(false) }
         var aboutDialogShown by remember { mutableStateOf(false) }
         var statsScreenShown by remember { mutableStateOf(false) }
         var clearStatsDialogShown by remember { mutableStateOf(false) }
         val year = 2026
+
+        LaunchedEffect(deckRepository) {
+            languageCombinations = withContext(Dispatchers.Default) {
+                deckRepository.getLanguageCombinations()
+            }
+        }
+
         Scaffold(
             modifier = Modifier.fillMaxSize().safeContentPadding(),
             topBar = {
@@ -112,14 +128,22 @@ fun App(
         ) { innerPadding ->
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
                 when {
-                    sessionState == null -> StartScreen(
-                        languageCombinations = SampleData.languageCombinations,
-                        onStart = { deck, direction ->
-                            sessionState = SessionFlow.startSession(deck, direction)
-                        },
-                        onExit = onExit,
-                        modifier = Modifier.fillMaxSize(),
-                    )
+                    sessionState == null -> when (val combos = languageCombinations) {
+                        null -> Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                        else -> StartScreen(
+                            languageCombinations = combos,
+                            onStart = { deck, direction ->
+                                sessionState = SessionFlow.startSession(deck, direction)
+                            },
+                            onExit = onExit,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                     sessionState!!.isAtSummary -> SummaryScreen(
                         state = sessionState!!,
                         onPracticeAgain = { sessionState = null },

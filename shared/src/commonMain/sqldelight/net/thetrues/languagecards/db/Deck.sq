@@ -1,0 +1,27 @@
+CREATE TABLE deck (
+  id TEXT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  language_combo_id TEXT NOT NULL REFERENCES language_combo(id)
+);
+
+CREATE INDEX deck_language_combo_id ON deck(language_combo_id);
+
+selectAll:
+SELECT *
+FROM deck
+ORDER BY name;
+
+selectById:
+SELECT *
+FROM deck
+WHERE id = ?;
+
+selectByLanguageComboId:
+SELECT *
+FROM deck
+WHERE language_combo_id = ?
+ORDER BY name;
+
+insert:
+INSERT OR REPLACE INTO deck(id, name, language_combo_id)
+VALUES (?, ?, ?);
