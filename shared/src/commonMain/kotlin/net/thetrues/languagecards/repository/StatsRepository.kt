@@ -10,6 +10,7 @@ import net.thetrues.languagecards.model.PracticeDirection
 interface StatsRepository {
     fun record(cardId: String, direction: PracticeDirection, wasHit: Boolean)
     fun getStats(cardId: String, direction: PracticeDirection): CardStats?
+    fun getStatsForCards(cardIds: List<String>, direction: PracticeDirection): Map<String, CardStats>
     fun getAllStats(): List<CardStats>
     fun clearAllStats()
 }

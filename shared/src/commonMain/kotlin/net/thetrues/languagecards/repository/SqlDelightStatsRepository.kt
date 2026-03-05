@@ -20,6 +20,21 @@ class SqlDelightStatsRepository(
         }
     }
 
+    override fun getStatsForCards(cardIds: List<String>, direction: PracticeDirection): Map<String, CardStats> {
+        if (cardIds.isEmpty()) return emptyMap()
+        val cardIdsSet = cardIds.toSet()
+        return database.cardStatsQueries.selectAll().executeAsList()
+            .filter { it.card_id in cardIdsSet && it.direction == direction.name }
+            .associate { row ->
+                row.card_id to CardStats(
+                    cardId = row.card_id,
+                    direction = PracticeDirection.valueOf(row.direction),
+                    hits = row.hits.toInt(),
+                    misses = row.misses.toInt(),
+                )
+            }
+    }
+
     override fun getStats(cardId: String, direction: PracticeDirection): CardStats? {
         val row = database.cardStatsQueries.selectByCardIdAndDirection(cardId, direction.name)
             .executeAsList()

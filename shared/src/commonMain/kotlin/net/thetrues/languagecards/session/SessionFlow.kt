@@ -4,6 +4,7 @@ import net.thetrues.languagecards.model.CardResult
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.PracticeDirection
 import net.thetrues.languagecards.model.SessionState
+import net.thetrues.languagecards.repository.StatsRepository
 
 /**
  * Session flow: start from a deck, then for each card record hit/miss and advance.
@@ -11,16 +12,33 @@ import net.thetrues.languagecards.model.SessionState
  */
 object SessionFlow {
 
+    const val DEFAULT_SESSION_SIZE = 10
+
     /**
      * Start a new session with the given deck.
-     * Randomly selects 10 cards from the deck; cards are shown in shuffled order.
+     * Selects cards using [CardSelector]: half weighted toward most-missed cards,
+     * half random from the remainder, then shuffled.
      */
-    fun startSession(deck: Deck, direction: PracticeDirection): SessionState = SessionState(
-        currentIndex = 0,
-        cards = deck.cards.shuffled().take(10),
-        results = emptyList(),
-        direction = direction,
-    )
+    fun startSession(
+        deck: Deck,
+        direction: PracticeDirection,
+        statsRepository: StatsRepository,
+    ): SessionState {
+        val cardIds = deck.cards.map { it.id }
+        val statsByCard = statsRepository.getStatsForCards(cardIds, direction)
+        val selectedCards = CardSelector.selectCards(
+            deck = deck,
+            direction = direction,
+            sessionSize = DEFAULT_SESSION_SIZE,
+            statsByCard = statsByCard,
+        )
+        return SessionState(
+            currentIndex = 0,
+            cards = selectedCards,
+            results = emptyList(),
+            direction = direction,
+        )
+    }
 
     /**
      * Record the answer for the current card (hit or miss) and advance to the next card.

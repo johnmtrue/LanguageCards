@@ -138,7 +138,7 @@ fun App(
                         else -> StartScreen(
                             languageCombinations = combos,
                             onStart = { deck, direction ->
-                                sessionState = SessionFlow.startSession(deck, direction)
+                                sessionState = SessionFlow.startSession(deck, direction, statsStore)
                             },
                             onExit = onExit,
                             modifier = Modifier.fillMaxSize(),
