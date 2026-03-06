@@ -16,6 +16,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -105,6 +106,7 @@ fun App(
                                 expanded = menuExpanded,
                                 onDismissRequest = { menuExpanded = false },
                             ) {
+                                // Group 1: Deck management
                                 if (onRequestImportDeck != null) {
                                     val requestImport = onRequestImportDeck
                                     DropdownMenuItem(
@@ -126,13 +128,8 @@ fun App(
                                         deleteDeckDialogShown = true
                                     },
                                 )
-                                DropdownMenuItem(
-                                    text = { Text("About") },
-                                    onClick = {
-                                        menuExpanded = false
-                                        aboutDialogShown = true
-                                    },
-                                )
+                                HorizontalDivider()
+                                // Group 2: Stats
                                 DropdownMenuItem(
                                     text = { Text("Stats") },
                                     onClick = {
@@ -145,6 +142,15 @@ fun App(
                                     onClick = {
                                         menuExpanded = false
                                         clearStatsDialogShown = true
+                                    },
+                                )
+                                HorizontalDivider()
+                                // Group 3: About & Exit
+                                DropdownMenuItem(
+                                    text = { Text("About") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        aboutDialogShown = true
                                     },
                                 )
                                 DropdownMenuItem(
