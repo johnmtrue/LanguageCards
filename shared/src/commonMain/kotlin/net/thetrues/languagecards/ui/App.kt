@@ -34,13 +34,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.thetrues.languagecards.data.DeckRepository
+import net.thetrues.languagecards.shared.generated.resources.Res
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.LanguageCombination
 import net.thetrues.languagecards.model.SessionState
@@ -81,6 +84,8 @@ fun App(
         var statsScreenShown by remember { mutableStateOf(false) }
         var clearStatsDialogShown by remember { mutableStateOf(false) }
         var deleteDeckDialogShown by remember { mutableStateOf(false) }
+        var restoreDefaultDecksDialogShown by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
         val year = 2026
 
         LaunchedEffect(deckRepository, refreshTrigger) {
@@ -126,6 +131,13 @@ fun App(
                                     onClick = {
                                         menuExpanded = false
                                         deleteDeckDialogShown = true
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Restore default decks") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        restoreDefaultDecksDialogShown = true
                                     },
                                 )
                                 HorizontalDivider()
@@ -263,6 +275,51 @@ fun App(
                 },
             )
         }
+        if (restoreDefaultDecksDialogShown) {
+            AlertDialog(
+                onDismissRequest = { restoreDefaultDecksDialogShown = false },
+                title = { Text("Restore default decks?") },
+                text = {
+                    Text("This will remove all current decks and restore the four original decks: French Basics, French Past Tense, French Conversation, and Spanish Basics.")
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            restoreDefaultDecksDialogShown = false
+                            scope.launch {
+                                withContext(Dispatchers.Default) {
+                                    restoreDefaultDecks(deckRepository)
+                                }
+                                refreshTrigger++
+                            }
+                        },
+                    ) {
+                        Text("Restore")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { restoreDefaultDecksDialogShown = false }) {
+                        Text("Cancel")
+                    }
+                },
+            )
+        }
+    }
+}
+
+@OptIn(org.jetbrains.compose.resources.ExperimentalResourceApi::class)
+private suspend fun restoreDefaultDecks(deckRepository: DeckRepository) {
+    val combos = deckRepository.getLanguageCombinations()
+    combos.flatMap { it.decks }.forEach { deckRepository.deleteDeck(it.id) }
+    val defaultDeckPaths = listOf(
+        "files/decks/en-fr-french-basics.deck.json",
+        "files/decks/en-fr-french-past-tense.deck.json",
+        "files/decks/en-fr-french-conversation.deck.json",
+        "files/decks/en-es-spanish-basics.deck.json",
+    )
+    for (path in defaultDeckPaths) {
+        val json = Res.readBytes(path).decodeToString()
+        deckRepository.addDeckFromJson(json)
     }
 }
 
