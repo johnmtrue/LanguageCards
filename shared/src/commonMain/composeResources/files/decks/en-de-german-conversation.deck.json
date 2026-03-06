@@ -1,0 +1,50 @@
+{
+  "languageCombo": {
+    "id": "en-de",
+    "name": "English – German",
+    "sideAName": "English",
+    "sideBName": "German"
+  },
+  "deck": {
+    "id": "german-conversation",
+    "name": "German - Conversation"
+  },
+  "cards": [
+    {"id": "gc-1", "lines": [{"sideA": "How are you?", "sideB": ["Wie geht es Ihnen?", "Wie geht's?"]}]},
+    {"id": "gc-d1", "lines": [
+      {"sideA": "Hi, Paul. Is everything going well?", "sideB": ["Hallo, Paul. Geht alles gut?"]},
+      {"sideA": "Very well / Great, thanks", "sideB": ["Sehr gut, danke"]}
+    ]},
+    {"id": "gc-2", "lines": [{"sideA": "How's it going?", "sideB": ["Wie geht's?", "Wie läuft's?"]}]},
+    {"id": "gc-d2", "lines": [
+      {"sideA": "Hello, Jean. How are you?", "sideB": ["Hallo, Johann. Wie geht es dir?"]},
+      {"sideA": "Fine, thank you", "sideB": ["Gut, danke"]}
+    ]},
+    {"id": "gc-3", "lines": [{"sideA": "Is everything OK?", "sideB": ["Alles in Ordnung?", "Geht alles?", "Alles OK?"]}]},
+    {"id": "gc-d3", "lines": [
+      {"sideA": "Is he going to join us?", "sideB": ["Wird er zu uns kommen?"]},
+      {"sideA": "Yes, he is (that's it).", "sideB": ["Ja, genau."]}
+    ]},
+    {"id": "gc-4", "lines": [{"sideA": "everything is OK", "sideB": ["Alles in Ordnung", "Alles gut"]}]},
+    {"id": "gc-d4", "lines": [
+      {"sideA": "I can't go out.  I'm busy.", "sideB": ["Ich kann nicht ausgehen.  Ich bin beschäftigt."]},
+      {"sideA": "I see.", "sideB": ["Verstehe."]}
+    ]},
+    {"id": "gc-5", "lines": [{"sideA": "I'm not bad", "sideB": ["Nicht schlecht", "Geht so", "Mir geht's nicht schlecht"]}]},
+    {"id": "gc-d5", "lines": [
+      {"sideA": "They are closed today.", "sideB": ["Sie haben heute geschlossen."]},
+      {"sideA": "Yes. I understand (I get it).", "sideB": ["Ja.  Verstehe ich."]}
+    ]},
+    {"id": "gc-6", "lines": [{"sideA": "I am doing well", "sideB": ["Mir geht es gut"]}]},
+    {"id": "gc-d6", "lines": [
+      {"sideA": "Thanks for the coffee.", "sideB": ["Danke für den Kaffee."]},
+      {"sideA": "Don't mention it.", "sideB": ["Gern geschehen. / Keine Ursache."]}
+    ]},
+    {"id": "gc-7", "lines": [{"sideA": "I am doing very well", "sideB": ["Mir geht es sehr gut"]}]},
+    {"id": "gc-8", "lines": [{"sideA": "I see", "sideB": ["Verstehe", "Ich verstehe"]}]},
+    {"id": "gc-9", "lines": [{"sideA": "I understand", "sideB": ["Ich verstehe"]}]},
+    {"id": "gc-10", "lines": [{"sideA": "Thanks for", "sideB": ["Danke für"]}]},
+    {"id": "gc-11", "lines": [{"sideA": "Yes he is", "sideB": ["Ja, das stimmt", "Genau"]}]},
+    {"id": "gc-12", "lines": [{"sideA": "Don't mention it", "sideB": ["Gern geschehen", "Keine Ursache"]}]}
+  ]
+}

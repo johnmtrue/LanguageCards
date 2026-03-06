@@ -1,0 +1,50 @@
+{
+  "languageCombo": {
+    "id": "en-es",
+    "name": "English – Spanish",
+    "sideAName": "English",
+    "sideBName": "Spanish"
+  },
+  "deck": {
+    "id": "spanish-conversation",
+    "name": "Spanish - Conversation"
+  },
+  "cards": [
+    {"id": "sc-1", "lines": [{"sideA": "How are you?", "sideB": ["¿Cómo estás?", "¿Cómo está usted?"]}]},
+    {"id": "sc-d1", "lines": [
+      {"sideA": "Hi, Paul. Is everything going well?", "sideB": ["Hola, Pablo. ¿Todo va bien?"]},
+      {"sideA": "Very well / Great, thanks", "sideB": ["Muy bien, gracias"]}
+    ]},
+    {"id": "sc-2", "lines": [{"sideA": "How's it going?", "sideB": ["¿Cómo te va?", "¿Qué tal?"]}]},
+    {"id": "sc-d2", "lines": [
+      {"sideA": "Hello, Jean. How are you?", "sideB": ["Hola, Juan. ¿Cómo estás?"]},
+      {"sideA": "Fine, thank you", "sideB": ["Bien, gracias"]}
+    ]},
+    {"id": "sc-3", "lines": [{"sideA": "Is everything OK?", "sideB": ["¿Todo bien?", "¿Está todo bien?", "¿Todo está OK?"]}]},
+    {"id": "sc-d3", "lines": [
+      {"sideA": "Is he going to join us?", "sideB": ["¿Va a unirse a nosotros?"]},
+      {"sideA": "Yes, he is (that's it).", "sideB": ["Sí, eso es."]}
+    ]},
+    {"id": "sc-4", "lines": [{"sideA": "everything is OK", "sideB": ["Todo está bien", "Todo va bien"]}]},
+    {"id": "sc-d4", "lines": [
+      {"sideA": "I can't go out.  I'm busy.", "sideB": ["No puedo salir.  Estoy ocupado."]},
+      {"sideA": "I see.", "sideB": ["Ya veo."]}
+    ]},
+    {"id": "sc-5", "lines": [{"sideA": "I'm not bad", "sideB": ["No está mal", "Más o menos", "No me va mal"]}]},
+    {"id": "sc-d5", "lines": [
+      {"sideA": "They are closed today.", "sideB": ["Están cerrados hoy."]},
+      {"sideA": "Yes. I understand (I get it).", "sideB": ["Sí.  Entiendo."]}
+    ]},
+    {"id": "sc-6", "lines": [{"sideA": "I am doing well", "sideB": ["Estoy bien"]}]},
+    {"id": "sc-d6", "lines": [
+      {"sideA": "Thanks for the coffee.", "sideB": ["Gracias por el café."]},
+      {"sideA": "Don't mention it.", "sideB": ["De nada. / No hay de qué."]}
+    ]},
+    {"id": "sc-7", "lines": [{"sideA": "I am doing very well", "sideB": ["Estoy muy bien"]}]},
+    {"id": "sc-8", "lines": [{"sideA": "I see", "sideB": ["Ya veo"]}]},
+    {"id": "sc-9", "lines": [{"sideA": "I understand", "sideB": ["Entiendo"]}]},
+    {"id": "sc-10", "lines": [{"sideA": "Thanks for", "sideB": ["Gracias por"]}]},
+    {"id": "sc-11", "lines": [{"sideA": "Yes he is", "sideB": ["Sí, lo es", "Eso es"]}]},
+    {"id": "sc-12", "lines": [{"sideA": "Don't mention it", "sideB": ["De nada", "No hay de qué"]}]}
+  ]
+}

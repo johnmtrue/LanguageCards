@@ -1,0 +1,44 @@
+{
+  "languageCombo": {
+    "id": "en-de",
+    "name": "English – German",
+    "sideAName": "English",
+    "sideBName": "German"
+  },
+  "deck": {
+    "id": "german-1",
+    "name": "German — Basics"
+  },
+  "cards": [
+    {"id": "de-1", "lines": [{"sideA": "Hello", "sideB": ["Hallo", "Guten Tag"]}]},
+    {"id": "de-2", "lines": [{"sideA": "Thank you", "sideB": ["Danke"]}]},
+    {"id": "de-3", "lines": [{"sideA": "Goodbye", "sideB": ["Auf Wiedersehen", "Tschüss"]}]},
+    {"id": "de-4", "lines": [{"sideA": "Yes", "sideB": ["Ja"]}]},
+    {"id": "de-5", "lines": [{"sideA": "No", "sideB": ["Nein"]}]},
+    {"id": "de-6", "lines": [{"sideA": "Please", "sideB": ["Bitte"]}]},
+    {"id": "de-7", "lines": [{"sideA": "Excuse me", "sideB": ["Entschuldigung"]}]},
+    {"id": "de-8", "lines": [{"sideA": "How are you?", "sideB": ["Wie geht es Ihnen?", "Wie geht's?"]}]},
+    {"id": "de-9", "lines": [{"sideA": "I'm fine", "sideB": ["Mir geht es gut"]}]},
+    {"id": "de-10", "lines": [{"sideA": "I don't understand", "sideB": ["Ich verstehe nicht"]}]},
+    {"id": "de-11", "lines": [{"sideA": "Water", "sideB": ["Wasser"]}]},
+    {"id": "de-12", "lines": [{"sideA": "Coffee", "sideB": ["Kaffee"]}]},
+    {"id": "de-13", "lines": [{"sideA": "Bread", "sideB": ["Brot"]}]},
+    {"id": "de-14", "lines": [{"sideA": "Milk", "sideB": ["Milch"]}]},
+    {"id": "de-15", "lines": [{"sideA": "Cheese", "sideB": ["Käse"]}]},
+    {"id": "de-16", "lines": [{"sideA": "Help", "sideB": ["Hilfe"]}]},
+    {"id": "de-17", "lines": [{"sideA": "Where is", "sideB": ["Wo ist"]}]},
+    {"id": "de-18", "lines": [{"sideA": "I would like", "sideB": ["Ich möchte"]}]},
+    {"id": "de-19", "lines": [{"sideA": "The bill please", "sideB": ["Die Rechnung bitte"]}]},
+    {"id": "de-20", "lines": [{"sideA": "Breakfast", "sideB": ["Frühstück"]}]},
+    {"id": "de-21", "lines": [{"sideA": "Lunch", "sideB": ["Mittagessen"]}]},
+    {"id": "de-22", "lines": [{"sideA": "Dinner", "sideB": ["Abendessen"]}]},
+    {"id": "de-23", "lines": [{"sideA": "Train station", "sideB": ["Bahnhof"]}]},
+    {"id": "de-24", "lines": [{"sideA": "Airport", "sideB": ["Flughafen"]}]},
+    {"id": "de-25", "lines": [{"sideA": "Hotel", "sideB": ["Hotel"]}]},
+    {"id": "de-26", "lines": [{"sideA": "Bathroom", "sideB": ["Badezimmer", "Toilette"]}]},
+    {"id": "de-27", "lines": [{"sideA": "Left", "sideB": ["Links"]}]},
+    {"id": "de-28", "lines": [{"sideA": "Right", "sideB": ["Rechts"]}]},
+    {"id": "de-29", "lines": [{"sideA": "My name is", "sideB": ["Ich heiße", "Mein Name ist"]}]},
+    {"id": "de-30", "lines": [{"sideA": "Nice to meet you", "sideB": ["Freut mich", "Schön Sie kennenzulernen"]}]}
+  ]
+}
