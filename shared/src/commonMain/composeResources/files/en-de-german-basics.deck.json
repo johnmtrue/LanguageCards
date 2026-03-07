@@ -39,6 +39,17 @@
     {"id": "de-27", "lines": [{"sideA": "Left", "sideB": ["Links"]}]},
     {"id": "de-28", "lines": [{"sideA": "Right", "sideB": ["Rechts"]}]},
     {"id": "de-29", "lines": [{"sideA": "My name is", "sideB": ["Ich heiße", "Mein Name ist"]}]},
-    {"id": "de-30", "lines": [{"sideA": "Nice to meet you", "sideB": ["Freut mich", "Schön Sie kennenzulernen"]}]}
+    {"id": "de-30", "lines": [{"sideA": "Nice to meet you", "sideB": ["Freut mich", "Schön Sie kennenzulernen"]}]},
+    {"id": "de-31", "lines": [{"sideA": "by the edge", "sideB": ["am Rand", "am Rande"]}]},
+    {"id": "de-32", "lines": [{"sideA": "glance", "sideB": ["Blick"]}]},
+    {"id": "de-33", "lines": [{"sideA": "save", "sideB": ["retten", "sparen"]}]},
+    {"id": "de-34", "lines": [{"sideA": "seems", "sideB": ["scheint"]}]},
+    {"id": "de-35", "lines": [{"sideA": "blind", "sideB": ["blind"]}]},
+    {"id": "de-36", "lines": [{"sideA": "sort", "sideB": ["Art", "Sorte", "sortieren"]}]},
+    {"id": "de-37", "lines": [{"sideA": "success", "sideB": ["Erfolg"]}]},
+    {"id": "de-38", "lines": [{"sideA": "otherwise", "sideB": ["sonst", "andernfalls"]}]},
+    {"id": "de-39", "lines": [{"sideA": "therefore", "sideB": ["daher", "deshalb"]}]},
+    {"id": "de-40", "lines": [{"sideA": "to tell", "sideB": ["sagen", "erzählen"]}]},
+    {"id": "de-41", "lines": [{"sideA": "around", "sideB": ["herum", "um ... herum"]}]}
   ]
 }

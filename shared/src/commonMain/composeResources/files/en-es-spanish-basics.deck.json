@@ -19,6 +19,17 @@
     {"id": "es-7", "lines": [{"sideA": "Water", "sideB": ["Agua"]}]},
     {"id": "es-8", "lines": [{"sideA": "Coffee", "sideB": ["Café"]}]},
     {"id": "es-9", "lines": [{"sideA": "Bread", "sideB": ["Pan"]}]},
-    {"id": "es-10", "lines": [{"sideA": "Help", "sideB": ["Ayuda"]}]}
+    {"id": "es-10", "lines": [{"sideA": "Help", "sideB": ["Ayuda"]}]},
+    {"id": "es-11", "lines": [{"sideA": "by the edge", "sideB": ["al borde", "al borde de"]}]},
+    {"id": "es-12", "lines": [{"sideA": "glance", "sideB": ["vistazo", "mirada"]}]},
+    {"id": "es-13", "lines": [{"sideA": "save", "sideB": ["salvar", "ahorrar"]}]},
+    {"id": "es-14", "lines": [{"sideA": "seems", "sideB": ["parece"]}]},
+    {"id": "es-15", "lines": [{"sideA": "blind", "sideB": ["ciego"]}]},
+    {"id": "es-16", "lines": [{"sideA": "sort", "sideB": ["tipo", "clase", "ordenar"]}]},
+    {"id": "es-17", "lines": [{"sideA": "success", "sideB": ["éxito"]}]},
+    {"id": "es-18", "lines": [{"sideA": "otherwise", "sideB": ["si no", "de lo contrario"]}]},
+    {"id": "es-19", "lines": [{"sideA": "therefore", "sideB": ["por tanto", "por lo tanto"]}]},
+    {"id": "es-20", "lines": [{"sideA": "to tell", "sideB": ["decir"]}]},
+    {"id": "es-21", "lines": [{"sideA": "around", "sideB": ["alrededor", "alrededor de"]}]}
   ]
 }

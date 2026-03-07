@@ -81,6 +81,17 @@
     {"id": "69", "lines": [{"sideA": "obviously", "sideB": ["évidemment"]}]},
     {"id": "70", "lines": [{"sideA": "dishwasher", "sideB": ["lave-vaisselle"]}]},
     {"id": "71", "lines": [{"sideA": "nightstand", "sideB": ["table de chevet"]}]},
-    {"id": "72", "lines": [{"sideA": "later", "sideB": ["plus tard", "tout à l'heure"]}]}
+    {"id": "72", "lines": [{"sideA": "later", "sideB": ["plus tard", "tout à l'heure"]}]},
+    {"id": "73", "lines": [{"sideA": "by the edge", "sideB": ["au bord", "au bord de"]}]},
+    {"id": "74", "lines": [{"sideA": "glance", "sideB": ["coup d'œil", "regard"]}]},
+    {"id": "75", "lines": [{"sideA": "save", "sideB": ["sauver", "économiser"]}]},
+    {"id": "76", "lines": [{"sideA": "seems", "sideB": ["semble"]}]},
+    {"id": "77", "lines": [{"sideA": "blind", "sideB": ["aveugle"]}]},
+    {"id": "78", "lines": [{"sideA": "sort", "sideB": ["sorte", "trier"]}]},
+    {"id": "79", "lines": [{"sideA": "success", "sideB": ["succès"]}]},
+    {"id": "80", "lines": [{"sideA": "otherwise", "sideB": ["sinon", "autrement"]}]},
+    {"id": "81", "lines": [{"sideA": "therefore", "sideB": ["donc", "par conséquent"]}]},
+    {"id": "82", "lines": [{"sideA": "to tell", "sideB": ["dire"]}]},
+    {"id": "83", "lines": [{"sideA": "around", "sideB": ["autour", "environ"]}]}
   ]
 }

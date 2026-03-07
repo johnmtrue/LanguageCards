@@ -283,7 +283,6 @@ fun App(
                 onDismiss = { deleteDeckDialogShown = false },
                 onDeleted = {
                     refreshTrigger++
-                    deleteDeckDialogShown = false
                 },
             )
         }
@@ -294,7 +293,6 @@ fun App(
                 onDismiss = { addDeckDialogShown = false },
                 onAdded = {
                     refreshTrigger++
-                    addDeckDialogShown = false
                 },
                 scope = scope,
             )
@@ -423,6 +421,12 @@ private fun DeleteDeckDialog(
     }
     var selectedDeck by remember { mutableStateOf<Pair<LanguageCombination, Deck>?>(allDecks.firstOrNull()) }
     var deckExpanded by remember { mutableStateOf(false) }
+    LaunchedEffect(allDecks) {
+        val current = selectedDeck
+        if (current != null && !allDecks.any { it.first.id == current.first.id && it.second.id == current.second.id }) {
+            selectedDeck = allDecks.firstOrNull()
+        }
+    }
     val comboDeck = selectedDeck ?: allDecks.firstOrNull()
 
     AlertDialog(

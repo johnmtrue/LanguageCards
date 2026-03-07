@@ -19,6 +19,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,8 +48,26 @@ fun StartScreen(
 
     val selectedCombo = languageCombinations.firstOrNull() ?: return
     var selectedComboState by remember { mutableStateOf(selectedCombo) }
+    var selectedDeck by remember(selectedComboState) { mutableStateOf(selectedComboState.decks.firstOrNull()) }
+    LaunchedEffect(languageCombinations) {
+        val currentCombo = selectedComboState
+        val comboInList = languageCombinations.find { it.id == currentCombo.id }
+        if (comboInList == null) {
+            val first = languageCombinations.firstOrNull() ?: return@LaunchedEffect
+            selectedComboState = first
+            selectedDeck = first.decks.firstOrNull()
+        } else {
+            selectedComboState = comboInList
+            val currentDeck = selectedDeck
+            val deckInList = comboInList.decks.find { it.id == currentDeck?.id }
+            if (deckInList == null) {
+                selectedDeck = comboInList.decks.firstOrNull()
+            } else {
+                selectedDeck = deckInList
+            }
+        }
+    }
     val combo = selectedComboState
-    var selectedDeck by remember(combo) { mutableStateOf(combo.decks.firstOrNull()) }
     val deck = selectedDeck
     if (deck == null) {
         EmptyDecksScreen(onExit = onExit, modifier = modifier)
