@@ -235,4 +235,47 @@ class DeckRepositoryTest {
 
         assertEquals(0, repository.getLanguageCombinations().size)
     }
+
+    @Test
+    fun addDeleteRestore_deckFlow() {
+        val frenchBasicsJson = """
+            {
+              "languageCombo": {"id": "en-fr", "name": "English – French", "sideAName": "English", "sideBName": "French"},
+              "deck": {"id": "french-1", "name": "French — Basics"},
+              "cards": [{"id": "1", "lines": [{"sideA": "Hello", "sideB": ["Bonjour"]}]}]
+            }
+        """.trimIndent()
+        val spanishBasicsJson = """
+            {
+              "languageCombo": {"id": "en-es", "name": "English – Spanish", "sideAName": "English", "sideBName": "Spanish"},
+              "deck": {"id": "spanish-1", "name": "Spanish — Basics"},
+              "cards": [{"id": "es-1", "lines": [{"sideA": "Hello", "sideB": ["Hola"]}]}]
+            }
+        """.trimIndent()
+
+        // Add two decks (simulates loading default decks)
+        assertTrue(repository.addDeckFromJson(frenchBasicsJson).isSuccess)
+        assertTrue(repository.addDeckFromJson(spanishBasicsJson).isSuccess)
+        var combos = repository.getLanguageCombinations()
+        assertEquals(2, combos.size)
+        assertEquals(setOf("en-fr", "en-es"), combos.map { it.id }.toSet())
+        assertEquals(1, combos[0].decks.size)
+        assertEquals(1, combos[1].decks.size)
+
+        // Delete all decks (simulates clearing before restore)
+        combos.flatMap { it.decks }.forEach { repository.deleteDeck(it.id) }
+        combos = repository.getLanguageCombinations()
+        assertEquals(0, combos.size)
+
+        // Restore by re-adding the same decks (simulates restore default decks)
+        assertTrue(repository.addDeckFromJson(frenchBasicsJson).isSuccess)
+        assertTrue(repository.addDeckFromJson(spanishBasicsJson).isSuccess)
+        combos = repository.getLanguageCombinations()
+        assertEquals(2, combos.size)
+        assertEquals(setOf("en-fr", "en-es"), combos.map { it.id }.toSet())
+        assertEquals("french-1", repository.getDeck("french-1")?.id)
+        assertEquals("spanish-1", repository.getDeck("spanish-1")?.id)
+        assertEquals(1, repository.getDeck("french-1")!!.cards.size)
+        assertEquals(1, repository.getDeck("spanish-1")!!.cards.size)
+    }
 }
