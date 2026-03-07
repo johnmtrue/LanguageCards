@@ -15,8 +15,6 @@ file("local.properties").takeIf { it.exists() }?.let { localProps ->
         }
 }
 
-import org.gradle.api.tasks.testing.Test
-
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.kotlin.multiplatform.library) apply false
@@ -27,7 +25,7 @@ plugins {
 }
 
 subprojects {
-    tasks.withType<Test>().configureEach {
+    tasks.withType<org.gradle.api.tasks.testing.Test>().configureEach {
         testLogging {
             events("passed", "skipped", "failed")
             exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
