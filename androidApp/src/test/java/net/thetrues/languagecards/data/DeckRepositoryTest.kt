@@ -21,6 +21,7 @@ class DeckRepositoryTest {
 
     @Before
     fun setUp() {
+        Class.forName("org.sqlite.JDBC")
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         LanguageCardsDatabase.Schema.create(driver)
         database = LanguageCardsDatabase(driver)
