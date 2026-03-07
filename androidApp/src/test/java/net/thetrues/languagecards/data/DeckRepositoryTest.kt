@@ -113,6 +113,43 @@ class DeckRepositoryTest {
     }
 
     @Test
+    fun addDeckFromJson_bundledDeckFormat_addsNewDeck() {
+        // Uses the exact JSON structure of bundled decks (e.g. en-fr-french-basics.deck.json)
+        // to verify the "Add a deck from APK" flow parses and inserts correctly.
+        val json = """
+            {
+              "languageCombo": {
+                "id": "en-fr",
+                "name": "English – French",
+                "sideAName": "English",
+                "sideBName": "French"
+              },
+              "deck": {
+                "id": "french-1",
+                "name": "French — Basics"
+              },
+              "cards": [
+                {"id": "1", "lines": [{"sideA": "Hello", "sideB": ["Bonjour", "Salut"]}]},
+                {"id": "2", "lines": [{"sideA": "Thank you", "sideB": ["Merci"]}]}
+              ]
+            }
+        """.trimIndent()
+
+        val result = repository.addDeckFromJson(json)
+
+        assertTrue(result.isSuccess)
+        val combos = repository.getLanguageCombinations()
+        assertEquals(1, combos.size)
+        assertEquals("en-fr", combos[0].id)
+        assertEquals(1, combos[0].decks.size)
+        assertEquals("french-1", combos[0].decks[0].id)
+        assertEquals("French — Basics", combos[0].decks[0].name)
+        assertEquals(2, combos[0].decks[0].cards.size)
+        assertEquals("Hello", combos[0].decks[0].cards[0].lines[0].sideA)
+        assertEquals(listOf("Bonjour", "Salut"), combos[0].decks[0].cards[0].lines[0].sideB)
+    }
+
+    @Test
     fun addDeckFromJson_invalidJson_returnsFailure() {
         val result = repository.addDeckFromJson("not valid json {")
 

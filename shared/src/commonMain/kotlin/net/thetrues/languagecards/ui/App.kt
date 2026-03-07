@@ -1,11 +1,13 @@
 package net.thetrues.languagecards.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.rememberScrollState
@@ -17,6 +19,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -39,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -55,14 +59,13 @@ import net.thetrues.languagecards.ui.screens.StatsScreen
 import net.thetrues.languagecards.ui.screens.SummaryScreen
 import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
 
-private const val APP_VERSION = "0.1"
-
 /**
  * Shared entry point for the Language Cards app.
  * [deckRepository] loads decks from SQLite.
  * [statsStore] persists stats to SQLite (SqlDelightStatsRepository).
  * [onExit] is invoked when the user taps Exit (e.g. activity.finish() on Android).
  * [authorName] is shown in the About dialog (default: "Your Name").
+ * [versionName] is shown in the About dialog (default: "0.1"). Pass BuildConfig.VERSION_NAME on Android.
  * [onRequestImportDeck] when non-null, enables "Import deck" menu. Platform shows file picker
  * and invokes the callback with the file content. Null on platforms without file picker support.
  */
@@ -73,6 +76,7 @@ fun App(
     statsStore: StatsRepository,
     onExit: () -> Unit,
     authorName: String = "Your Name",
+    versionName: String = "0.1",
     onRequestImportDeck: (((String) -> Unit) -> Unit)? = null,
 ) {
     LanguageCardsTheme {
@@ -85,6 +89,7 @@ fun App(
         var clearStatsDialogShown by remember { mutableStateOf(false) }
         var deleteDeckDialogShown by remember { mutableStateOf(false) }
         var restoreDefaultDecksDialogShown by remember { mutableStateOf(false) }
+        var addDeckDialogShown by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
         val year = 2026
 
@@ -126,6 +131,13 @@ fun App(
                                         },
                                     )
                                 }
+                                DropdownMenuItem(
+                                    text = { Text("Add a deck") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        addDeckDialogShown = true
+                                    },
+                                )
                                 DropdownMenuItem(
                                     text = { Text("Delete deck") },
                                     onClick = {
@@ -226,7 +238,7 @@ fun App(
                 title = { Text("About Language Cards") },
                 text = {
                     Column {
-                        Text("Version $APP_VERSION")
+                        Text("Version $versionName")
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(authorName)
                         Spacer(modifier = Modifier.height(8.dp))
@@ -275,6 +287,18 @@ fun App(
                 },
             )
         }
+        if (addDeckDialogShown && languageCombinations != null) {
+            AddDeckDialog(
+                currentDeckIds = languageCombinations!!.flatMap { it.decks }.map { it.id }.toSet(),
+                deckRepository = deckRepository,
+                onDismiss = { addDeckDialogShown = false },
+                onAdded = {
+                    refreshTrigger++
+                    addDeckDialogShown = false
+                },
+                scope = scope,
+            )
+        }
         if (restoreDefaultDecksDialogShown) {
             AlertDialog(
                 onDismissRequest = { restoreDefaultDecksDialogShown = false },
@@ -307,15 +331,78 @@ fun App(
     }
 }
 
+private data class BundledDeck(val path: String, val displayName: String, val deckId: String)
+
+private val BUNDLED_DECKS = listOf(
+    BundledDeck("files/en-fr-french-basics.deck.json", "French — Basics", "french-1"),
+    BundledDeck("files/en-fr-french-past-tense.deck.json", "French - Past Tense", "french-past"),
+    BundledDeck("files/en-fr-french-conversation.deck.json", "French - Conversation", "french-conversation"),
+    BundledDeck("files/en-es-spanish-basics.deck.json", "Spanish — Basics", "spanish-1"),
+    BundledDeck("files/en-es-spanish-conversation.deck.json", "Spanish - Conversation", "spanish-conversation"),
+    BundledDeck("files/en-de-german-basics.deck.json", "German — Basics", "german-1"),
+    BundledDeck("files/en-de-german-conversation.deck.json", "German - Conversation", "german-conversation"),
+)
+
+@OptIn(ExperimentalMaterial3Api::class, org.jetbrains.compose.resources.ExperimentalResourceApi::class)
+@Composable
+private fun AddDeckDialog(
+    currentDeckIds: Set<String>,
+    deckRepository: DeckRepository,
+    onDismiss: () -> Unit,
+    onAdded: () -> Unit,
+    scope: CoroutineScope,
+) {
+    val unloadedDecks = BUNDLED_DECKS.filter { it.deckId !in currentDeckIds }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Close")
+            }
+        },
+        title = { Text("Add a deck") },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 400.dp)
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                Text("Select a deck to add from the bundled decks:")
+                Spacer(modifier = Modifier.height(8.dp))
+                if (unloadedDecks.isEmpty()) {
+                    Text("All bundled decks are already loaded.")
+                } else {
+                    unloadedDecks.forEach { bundled ->
+                        ListItem(
+                            headlineContent = { Text(bundled.displayName) },
+                            modifier = Modifier.fillMaxWidth().clickable {
+                                scope.launch {
+                                    withContext(Dispatchers.Default) {
+                                        val json = Res.readBytes(bundled.path).decodeToString()
+                                        deckRepository.addDeckFromJson(json)
+                                    }
+                                    onAdded()
+                                }
+                            },
+                        )
+                    }
+                }
+            }
+        },
+    )
+}
+
 @OptIn(org.jetbrains.compose.resources.ExperimentalResourceApi::class)
 private suspend fun restoreDefaultDecks(deckRepository: DeckRepository) {
     val combos = deckRepository.getLanguageCombinations()
     combos.flatMap { it.decks }.forEach { deckRepository.deleteDeck(it.id) }
     val defaultDeckPaths = listOf(
-        "files/decks/en-fr-french-basics.deck.json",
-        "files/decks/en-fr-french-past-tense.deck.json",
-        "files/decks/en-fr-french-conversation.deck.json",
-        "files/decks/en-es-spanish-basics.deck.json",
+        "files/en-fr-french-basics.deck.json",
+        "files/en-fr-french-past-tense.deck.json",
+        "files/en-fr-french-conversation.deck.json",
+        "files/en-es-spanish-basics.deck.json",
     )
     for (path in defaultDeckPaths) {
         val json = Res.readBytes(path).decodeToString()

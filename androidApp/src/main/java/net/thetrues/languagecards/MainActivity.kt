@@ -47,6 +47,7 @@ class MainActivity : ComponentActivity() {
                 statsStore = statsStore,
                 onExit = { finish() },
                 authorName = "John True",
+                versionName = BuildConfig.VERSION_NAME,
                 onRequestImportDeck = onRequestImportDeck,
             )
         }

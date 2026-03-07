@@ -11,8 +11,8 @@ android {
         applicationId = "net.thetrues.languagecards"
         minSdk = 35
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +32,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -53,4 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// TODO: Fix NDK install (see docs/GRADLE_10_READINESS.md) and remove this block.
+afterEvaluate {
+    tasks.findByName("stripDebugDebugSymbols")?.enabled = false
 }
