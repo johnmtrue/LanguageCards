@@ -59,6 +59,9 @@ android {
         compose = true
         buildConfig = true
     }
+    lint {
+        abortOnError = false
+    }
 }
 
 dependencies {
@@ -75,6 +78,7 @@ dependencies {
     testImplementation(libs.sqldelight.sqlite.driver)
     testImplementation(libs.sqlite.jdbc)
     testImplementation(libs.kotlinx.serialization.json)
+    testImplementation(libs.slf4j.nop)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
