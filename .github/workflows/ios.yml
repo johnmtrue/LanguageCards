@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      ORG_GRADLE_JVMARGS: -Xmx4g
     steps:
       - uses: actions/checkout@v4
 
