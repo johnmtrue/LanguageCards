@@ -32,4 +32,13 @@ subprojects {
             showStandardStreams = true
         }
     }
+    // Kotlin/Native simulator tests (iOS) - show test output like JVM tests
+    listOf("iosSimulatorArm64Test", "iosX64Test").forEach { name ->
+        tasks.findByName(name)?.let { task ->
+            if (task is org.gradle.api.tasks.Exec) {
+                task.standardOutput = System.out
+                task.errorOutput = System.err
+            }
+        }
+    }
 }

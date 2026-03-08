@@ -24,6 +24,16 @@ jobs:
       - name: Build shared framework for iOS Simulator
         run: ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64 --no-daemon
 
+      - name: Run iOS unit tests
+        run: ./gradlew :shared:iosSimulatorArm64Test --no-daemon --console=plain
+
+      - name: Upload iOS test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-test-results
+          path: shared/build/reports/tests/
+
       - name: Build iOS app
         run: |
           xcodebuild build \
