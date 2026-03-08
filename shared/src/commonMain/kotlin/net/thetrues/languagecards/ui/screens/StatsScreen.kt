@@ -1,5 +1,6 @@
 package net.thetrues.languagecards.ui.screens
 
+import kotlin.math.roundToInt
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,7 @@ fun StatsScreen(
         Text("Total hits: $totalHits")
         Text("Total misses: $totalMisses")
         if (totalAttempts > 0) {
-            Text("Accuracy: ${"%.1f".format(accuracyPercent)}%")
+            Text("Accuracy: ${(accuracyPercent * 10).roundToInt() / 10.0}%")
         }
 
         Spacer(modifier = Modifier.height(24.dp))

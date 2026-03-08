@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.sqldelight)
 }
 
+@Suppress("DEPRECATION")
 kotlin {
     androidLibrary {
         namespace = "net.thetrues.languagecards.shared"

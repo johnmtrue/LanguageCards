@@ -26,7 +26,7 @@ This document tracks the project's compatibility with Gradle 10 (expected 2026).
 
 - **Archives configuration deprecation**: The `archives` configuration is deprecated and will fail in Gradle 10. The warning originates from transitive plugins (Kotlin Multiplatform, Android KMP, or Compose), not from project build scripts. Resolution depends on plugin updates. Tracked in [gradle/gradle#36296](https://github.com/gradle/gradle/issues/36296).
 
-- **androidLibrary block deprecation**: The Kotlin Multiplatform DSL reports `androidLibrary` as deprecated in favor of `android`. The `android` block has a different API (KotlinAndroidTarget) and does not support the Android KMP library configuration (namespace, compileSdk, etc.). Retain `androidLibrary` until the Android KMP plugin provides a migration path.
+- **androidLibrary block deprecation**: The Android-KMP plugin deprecates `androidLibrary` in favor of `android`. The Kotlin MPP plugin's `android` block (KotlinAndroidTarget) takes precedence and lacks namespace/compileSdk/minSdk. Keeping `androidLibrary` with `@Suppress("DEPRECATION")` until Android-KMP provides a clear migration path that works with Kotlin 2.2+.
 
 ## TODO
 
