@@ -3,9 +3,19 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+val copyDeckResources = tasks.register<Copy>("copyDeckResourcesToAssets") {
+    from(project(":shared").file("src/commonMain/composeResources/files"))
+    into(file("build/generated/compose-deck-assets/composeResources/net.thetrues.languagecards.shared.generated.resources/files"))
+    include("*.deck.json")
+}
+
 android {
     namespace = "net.thetrues.languagecards"
     compileSdk = 36
+
+    // Workaround: copy shared compose file resources into app assets so they're
+    // available at runtime (fixes MissingResourceException when adding decks)
+    sourceSets["main"].assets.srcDirs("build/generated/compose-deck-assets")
 
     defaultConfig {
         applicationId = "net.thetrues.languagecards"
@@ -61,4 +71,7 @@ dependencies {
 // TODO: Fix NDK install (see docs/GRADLE_10_READINESS.md) and remove this block.
 afterEvaluate {
     tasks.findByName("stripDebugDebugSymbols")?.enabled = false
+    listOf("mergeDebugAssets", "mergeReleaseAssets").forEach { taskName ->
+        tasks.findByName(taskName)?.dependsOn(copyDeckResources)
+    }
 }
