@@ -1,12 +1,16 @@
 # Language Cards
 
-A flashcard app for learning vocabulary in English ↔ French and English ↔ Spanish. Built with Kotlin Multiplatform and Compose Multiplatform.
+A flashcard app for learning vocabulary in English ↔ French, English ↔ Spanish, and English ↔ German. Built with Kotlin Multiplatform and Compose Multiplatform.
 
 ## Features
 
-- Bidirectional practice (English → Foreign and Foreign → English)
-- Hit/miss tracking to prioritize difficult cards
-- Sample decks: French Basics, Past Tense, Conversation; Spanish Basics
+- **Bidirectional practice** — English → Foreign and Foreign → English
+- **Hit/miss tracking** — Per card and per direction, to prioritize difficult cards
+- **Session summary** — See accuracy and progress after each practice round
+- **Overall stats** — Track total hits, misses, and accuracy across all sessions
+- **Add, delete, and restore decks** — Add bundled decks, remove unwanted ones, or restore defaults
+- **Import decks** — Add custom decks from JSON files (Android)
+- **Built-in decks** — French (Basics, Past Tense, Conversation); Spanish (Basics, Conversation); German (Basics, Conversation)
 
 ## Tech Stack
 
@@ -31,6 +35,8 @@ A flashcard app for learning vocabulary in English ↔ French and English ↔ Sp
 ### iOS
 
 iOS requires Xcode and manual setup. See [iosApp/README.md](iosApp/README.md).
+
+NOTE: iOS build has not been fully tested.
 
 ## Project Structure
 
