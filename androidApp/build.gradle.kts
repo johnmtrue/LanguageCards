@@ -27,6 +27,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        // Use debug keystore for release builds in CI (no Play Store signing keys)
+        create("ci") {
+            val home = System.getenv("HOME") ?: System.getenv("USERPROFILE") ?: ""
+            storeFile = file("$home/.android/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -34,6 +44,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = if (System.getenv("CI") == "true") {
+                signingConfigs.getByName("ci")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
     compileOptions {

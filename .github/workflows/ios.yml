@@ -34,12 +34,12 @@ jobs:
           name: ios-test-results
           path: shared/build/reports/tests/
 
-      - name: Build iOS app
+      - name: Build iOS app (Release)
         run: |
           xcodebuild build \
             -project iosApp/LanguageCards.xcodeproj \
             -scheme LanguageCards \
-            -configuration Debug \
+            -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath ./build
@@ -48,4 +48,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-simulator-app
-          path: build/Build/Products/Debug-iphonesimulator/
+          path: build/Build/Products/Release-iphonesimulator/

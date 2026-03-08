@@ -21,8 +21,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Run unit tests
+        run: ./gradlew :androidApp:testDebugUnitTest --no-daemon
+
       - name: Build Android debug APK
         run: ./gradlew :androidApp:assembleDebug --no-daemon
 
-      - name: Run unit tests
-        run: ./gradlew :androidApp:testDebugUnitTest --no-daemon
+      - name: Build Android release APK
+        run: ./gradlew :androidApp:assembleRelease --no-daemon
+
+      - name: Upload Android APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apks
+          path: |
+            androidApp/build/outputs/apk/debug/
+            androidApp/build/outputs/apk/release/
