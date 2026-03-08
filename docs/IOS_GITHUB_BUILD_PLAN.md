@@ -138,10 +138,10 @@ You can merge into a single workflow with multiple jobs:
 | # | Task | Status |
 |---|------|--------|
 | 1 | Create or add Xcode project (`.xcodeproj`) to repo | ✅ |
-| 2 | Verify `.gitignore` allows `*.xcodeproj` | |
-| 3 | Confirm framework search paths in Xcode match `Config.xcconfig` | |
-| 4 | Create `.github/workflows/ios.yml` with Gradle + xcodebuild steps | |
-| 5 | Replace placeholder project/scheme names in workflow | |
+| 2 | Verify `.gitignore` allows `*.xcodeproj` | ✅ |
+| 3 | Confirm framework search paths in Xcode match `Config.xcconfig` | ✅ |
+| 4 | Create `.github/workflows/ios.yml` with Gradle + xcodebuild steps | ✅ |
+| 5 | Replace placeholder project/scheme names in workflow | ✅ |
 | 6 | Test workflow: push or open PR, verify iOS job runs | |
 | 7 | (Optional) Add Xcode version pin with `maxim-lobanov/setup-xcode` | |
 
