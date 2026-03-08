@@ -25,7 +25,9 @@ The framework will be at:
 
 ## Xcode project setup
 
-1. **Create a new Xcode project** (if not already present):
+The Xcode project is at `iosApp/LanguageCards.xcodeproj`. Open it in Xcode to build and run.
+
+1. **If you need to recreate the Xcode project** (project file was removed):
    - Open Xcode → File → New → Project
    - Choose **App** (iOS)
    - Product Name: **LanguageCards**, Organization Identifier: e.g. `net.thetrues`
