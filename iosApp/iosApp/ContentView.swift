@@ -9,10 +9,10 @@ struct ContentView: View {
 }
 
 /// Wraps the shared Compose UI (MainViewController) so it can be used in SwiftUI.
-/// The Kotlin export name may be `MainViewController_iosKt` or `MainViewControllerKt` depending on the K/N version.
+/// Kotlin/Native exports top-level functions from MainViewController.kt as MainViewControllerKt.
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        return MainViewController_iosKt.MainViewController()
+        return MainViewControllerKt.MainViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

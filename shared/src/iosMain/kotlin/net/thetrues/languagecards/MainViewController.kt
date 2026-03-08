@@ -11,7 +11,7 @@ import platform.UIKit.UIViewController
 
 /**
  * iOS entry point: returns a UIViewController that hosts the shared Compose UI.
- * Swift/SwiftUI should call this (e.g. via Shared_iosKt.MainViewController()) and present it.
+ * Swift/SwiftUI should call this (e.g. via MainViewControllerKt.MainViewController()) and present it.
  * Exits the process when the user taps Exit.
  */
 fun MainViewController(): UIViewController = ComposeUIViewController {
