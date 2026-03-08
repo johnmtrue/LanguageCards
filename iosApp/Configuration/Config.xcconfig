@@ -4,4 +4,4 @@
 // With LanguageCards.xcodeproj at iosApp/, PROJECT_DIR = iosApp, so ../shared = repo root.
 // Simulator: pre-built by CI or ./gradlew linkReleaseFrameworkIosSimulatorArm64. Device: use Run Script (embedAndSignAppleFrameworkForXcode) so xcode-frameworks is populated.
 FRAMEWORK_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME) $(PROJECT_DIR)/../shared/build/bin/iosSimulatorArm64/releaseFramework
-OTHER_LDFLAGS = $(inherited) -framework shared
+OTHER_LDFLAGS = $(inherited) -framework shared -lsqlite3
