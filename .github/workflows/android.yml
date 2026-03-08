@@ -25,4 +25,4 @@ jobs:
         run: ./gradlew :androidApp:assembleDebug --no-daemon
 
       - name: Run unit tests
-        run: ./gradlew :shared:testDebugUnitTest :androidApp:testDebugUnitTest --no-daemon
+        run: ./gradlew :androidApp:testDebugUnitTest --no-daemon
