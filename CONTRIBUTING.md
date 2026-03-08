@@ -4,7 +4,7 @@ Thank you for your interest in contributing. This document outlines how to repor
 
 ## Reporting Bugs
 
-Use [GitHub Issues](https://github.com/thetrues/LanguageCards/issues) to report bugs. Please include:
+Use [GitHub Issues](https://github.com/johnmtrue/LanguageCards/issues) to report bugs. Please include:
 
 - A clear description of the problem
 - Steps to reproduce
