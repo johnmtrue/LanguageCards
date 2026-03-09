@@ -9,7 +9,7 @@ A flashcard app for learning vocabulary in English ↔ French, English ↔ Spani
 - **Session summary** — See accuracy and progress after each practice round
 - **Overall stats** — Track total hits, misses, and accuracy across all sessions
 - **Add, delete, and restore decks** — Add bundled decks, remove unwanted ones, or restore defaults
-- **Import decks** — Add custom decks from JSON files (Android)
+- **Import decks** — Add custom decks from JSON files (Android: file picker; iOS: document picker)
 - **Built-in decks** — French (Basics, Past Tense, Conversation); Spanish (Basics, Conversation); German (Basics, Conversation)
 
 ## Tech Stack
