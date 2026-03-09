@@ -17,10 +17,10 @@ kotlin {
         androidResources.enable = true
     }
 
-    // iosX64 (Intel simulator) omitted; CI and modern Macs use Apple Silicon (iosSimulatorArm64).
     listOf(
-        iosArm64(),
-        iosSimulatorArm64(),
+        iosArm64(),           // Physical devices
+        iosSimulatorArm64(),  // Apple Silicon simulator
+        iosX64(),             // Intel Mac simulator (x86_64)
     ).forEach { target ->
         target.binaries.framework {
             baseName = "shared"
