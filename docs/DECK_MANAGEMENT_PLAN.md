@@ -6,10 +6,11 @@
 |-----------|------------------|
 | **Data source** | `SampleData.kt` → `DatabaseSeeder` seeds SQLite on first run |
 | **Schema** | `language_combo` → `deck` → `deck_card` + `card` + `card_line` |
-| **DeckRepository** | `getLanguageCombinations()`, `getDeck(id)` — read-only |
-| **Default decks** | English–French (3 decks), English–Spanish (1 deck) |
-
-**No support for:** adding decks, deleting decks, importing from file, or creating new language sets.
+| **DeckRepository** | `getLanguageCombinations()`, `getDeck(id)`, `addDeck()`, `addDeckFromJson()`, `deleteDeck()` |
+| **Default decks** | English–French (3), English–Spanish (1), plus bundled German; "Restore default decks" available |
+| **Import** | Android: file picker via `ActivityResultContracts.GetContent`; iOS: `UIDocumentPickerViewController` via `DocumentPicker.ios.kt` |
+| **Delete** | Menu → "Delete deck" → dialog with deck selection |
+| **Add from bundled** | Menu → "Add a deck" → pick from bundled `.deck.json` files |
 
 ---
 
@@ -221,7 +222,7 @@ Place in `shared/src/commonMain/composeResources/files/decks/` (or equivalent) s
 
 ---
 
-## 10. File Structure (After Implementation)
+## 10. File Structure (Implemented)
 
 ```
 shared/
@@ -230,18 +231,25 @@ shared/
 │   │   ├── data/
 │   │   │   ├── DeckRepository.kt          # extended
 │   │   │   ├── SqlDelightDeckRepository.kt
-│   │   │   ├── DeckFileParser.kt         # new: JSON → Deck + LanguageCombo
+│   │   │   ├── DeckFileParser.kt         # JSON → Deck + LanguageCombo
+│   │   │   ├── DeckFile.kt               # DTOs for JSON
 │   │   │   └── ...
 │   │   └── ...
-│   ├── composeResources/files/decks/     # or resources/
+│   ├── composeResources/files/
 │   │   ├── en-fr-french-basics.deck.json
 │   │   ├── en-fr-french-past-tense.deck.json
 │   │   ├── en-fr-french-conversation.deck.json
-│   │   └── en-es-spanish-basics.deck.json
+│   │   ├── en-es-spanish-basics.deck.json
+│   │   ├── en-es-spanish-conversation.deck.json
+│   │   ├── en-de-german-basics.deck.json
+│   │   └── en-de-german-conversation.deck.json
 │   └── sqldelight/.../db/
-│       ├── LanguageCombo.sq              # add deleteById
-│       ├── Deck.sq                       # add deleteById, countByLanguageComboId
+│       ├── LanguageCombo.sq              # deleteById
+│       ├── Deck.sq                       # deleteById, countByLanguageComboId
 │       └── ...
+├── src/iosMain/kotlin/.../
+│   └── platform/
+│       └── DocumentPicker.ios.kt         # UIDocumentPickerViewController for import
 ```
 
 ---
@@ -255,15 +263,28 @@ shared/
 
 ## 12. Checklist
 
-- [ ] Add delete queries to SQLDelight
-- [ ] Implement `addDeck`, `deleteDeck`, `addDeckFromJson` in SqlDelightDeckRepository
-- [ ] Add DeckFileParser (JSON parsing)
-- [ ] Create deck JSON files for French Basics, Past Tense, Conversation, Spanish Basics
-- [ ] Add "Import deck" UI (file picker)
-- [ ] Add "Delete deck" UI with confirmation
-- [ ] Refresh language combinations after add/delete
+- [x] Add delete queries to SQLDelight
+- [x] Implement `addDeck`, `deleteDeck`, `addDeckFromJson` in SqlDelightDeckRepository
+- [x] Add DeckFileParser (JSON parsing)
+- [x] Create deck JSON files for French Basics, Past Tense, Conversation, Spanish Basics
+- [x] Add "Import deck" UI (file picker) — Android and iOS
+- [x] Add "Delete deck" UI with confirmation
+- [x] Refresh language combinations after add/delete
 - [ ] Test add/delete flows on Android and iOS
 
 ---
 
-*Document version: 1.0 — Deck Management Plan*
+## 13. Implementation Status (as of implementation)
+
+| Phase | Status | Notes |
+|-------|--------|-------|
+| Phase 1: Schema and Repository | ✅ Done | All SQLDelight queries, repository methods, DeckFileParser |
+| Phase 2: Deck Files | ✅ Done | 7 bundled `.deck.json` files in `composeResources/files/` |
+| Phase 3: UI | ✅ Done | Import deck, Delete deck, Add deck from bundled, Restore defaults |
+| Phase 4: Polish | ⏳ Partial | Duplicate deck ID handling, JSON validation, user-facing error feedback |
+
+**Additional implemented:** "Add a deck" dialog (adds from bundled files), "Restore default decks", iOS `DocumentPicker.ios.kt` with `UIDocumentPickerViewController`, `HostViewControllerHolder` + Swift `setHostViewControllerForImport`.
+
+---
+
+*Document version: 1.1 — Deck Management Plan*
