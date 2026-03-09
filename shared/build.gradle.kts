@@ -17,8 +17,8 @@ kotlin {
         androidResources.enable = true
     }
 
+    // iosX64 (Intel simulator) omitted; CI and modern Macs use Apple Silicon (iosSimulatorArm64).
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach { target ->

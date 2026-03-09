@@ -93,4 +93,8 @@ afterEvaluate {
     listOf("mergeDebugAssets", "mergeReleaseAssets").forEach { taskName ->
         tasks.findByName(taskName)?.dependsOn(copyDeckResources)
     }
+    // Lint tasks read assets from build/generated/compose-deck-assets; ensure copy runs first.
+    listOf("generateReleaseLintVitalReportModel", "generateDebugLintVitalReportModel").forEach { taskName ->
+        tasks.findByName(taskName)?.dependsOn(copyDeckResources)
+    }
 }
