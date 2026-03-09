@@ -42,6 +42,13 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
+        findByName("androidUnitTest")?.dependencies {
+            implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.sqlite.jdbc)
+        }
+        findByName("iosSimulatorArm64Test")?.dependencies {
+            implementation(libs.sqldelight.native.driver)
+        }
         androidMain.dependencies {
             implementation(libs.sqldelight.android.driver)
         }

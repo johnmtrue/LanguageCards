@@ -250,6 +250,17 @@ shared/
 ├── src/iosMain/kotlin/.../
 │   └── platform/
 │       └── DocumentPicker.ios.kt         # UIDocumentPickerViewController for import
+├── src/commonTest/kotlin/.../
+│   ├── data/
+│   │   └── DeckRepositoryTest.kt         # Add/delete/addFromJson tests (shared)
+│   └── platform/
+│       └── TestDriver.kt                 # expect createTestDriver()
+├── src/androidUnitTest/kotlin/.../
+│   └── platform/
+│       └── TestDriver.android.kt         # actual: JdbcSqliteDriver
+└── src/iosSimulatorArm64Test/kotlin/.../
+    └── platform/
+        └── TestDriver.ios.kt             # actual: NativeSqliteDriver
 ```
 
 ---
@@ -270,7 +281,7 @@ shared/
 - [x] Add "Import deck" UI (file picker) — Android and iOS
 - [x] Add "Delete deck" UI with confirmation
 - [x] Refresh language combinations after add/delete
-- [ ] Test add/delete flows on Android and iOS
+- [x] Test add/delete flows on Android and iOS
 
 ---
 
@@ -285,6 +296,12 @@ shared/
 
 **Additional implemented:** "Add a deck" dialog (adds from bundled files), "Restore default decks", iOS `DocumentPicker.ios.kt` with `UIDocumentPickerViewController`, `HostViewControllerHolder` + Swift `setHostViewControllerForImport`.
 
+### Testing
+
+- **Android**: `./gradlew :androidApp:testDebugUnitTest` — `DeckRepositoryTest` (JVM) covers add/delete/addFromJson flows.
+- **iOS**: `./gradlew :shared:iosSimulatorArm64Test` — shared `DeckRepositoryTest` (NativeSqliteDriver) covers add/delete/addFromJson flows. Requires macOS.
+- **Manual**: See [DECK_ADD_DELETE_TEST_PROCEDURE.md](DECK_ADD_DELETE_TEST_PROCEDURE.md).
+
 ---
 
-*Document version: 1.1 — Deck Management Plan*
+*Document version: 1.2 — Deck Management Plan*

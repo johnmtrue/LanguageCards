@@ -2,9 +2,10 @@ package net.thetrues.languagecards.platform
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
-import platform.Foundation.NSUTF8StringEncoding
-import platform.Foundation.NSString
+import platform.posix.memcpy
 import platform.Foundation.dataWithContentsOfURL
 import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UIKit.UIDocumentPickerViewController
@@ -73,6 +74,12 @@ private class DocumentPickerDelegate(
 
     private fun readFileContent(url: platform.Foundation.NSURL): String? {
         val data = NSData.dataWithContentsOfURL(url) ?: return null
-        return NSString.create(data = data, encoding = NSUTF8StringEncoding)?.toString()
+        val size = data.length.toInt()
+        if (size <= 0) return ""
+        val bytes = ByteArray(size)
+        bytes.usePinned { pinned ->
+            memcpy(pinned.addressOf(0), data.bytes, data.length)
+        }
+        return bytes.decodeToString()
     }
 }
