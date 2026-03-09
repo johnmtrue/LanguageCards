@@ -90,11 +90,18 @@ dependencies {
 // TODO: Fix NDK install (see docs/GRADLE_10_READINESS.md) and remove this block.
 afterEvaluate {
     tasks.findByName("stripDebugDebugSymbols")?.enabled = false
+    tasks.findByName("stripReleaseDebugSymbols")?.enabled = false
+    tasks.findByName("extractReleaseNativeSymbolTables")?.enabled = false
     listOf("mergeDebugAssets", "mergeReleaseAssets").forEach { taskName ->
         tasks.findByName(taskName)?.dependsOn(copyDeckResources)
     }
     // Lint tasks read assets from build/generated/compose-deck-assets; ensure copy runs first.
-    listOf("generateReleaseLintVitalReportModel", "generateDebugLintVitalReportModel").forEach { taskName ->
+    listOf(
+        "generateReleaseLintVitalReportModel",
+        "generateDebugLintVitalReportModel",
+        "lintVitalAnalyzeRelease",
+        "lintVitalAnalyzeDebug",
+    ).forEach { taskName ->
         tasks.findByName(taskName)?.dependsOn(copyDeckResources)
     }
 }
