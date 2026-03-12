@@ -51,14 +51,14 @@ fun DeckFile.toDomain(): Pair<LanguageCombination, Deck> {
         sideBName = languageCombo.sideBName,
         decks = emptyList(),
     )
-    val cards = this.cards.map { card ->
-        Card(
-            id = card.id,
-            lines = card.lines.map { line ->
+    val cards = this.cards
+        .map { card ->
+            card to card.lines.map { line ->
                 CardLine(sideA = line.sideA, sideB = line.sideB)
-            },
-        )
-    }
+            }
+        }
+        .filter { (_, lines) -> lines.isNotEmpty() }
+        .map { (card, lines) -> Card(id = card.id, lines = lines) }
     val deck = Deck(
         id = deck.id,
         name = deck.name,

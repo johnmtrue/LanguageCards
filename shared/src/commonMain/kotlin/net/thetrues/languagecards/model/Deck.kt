@@ -7,4 +7,9 @@ data class Deck(
     val id: String,
     val name: String,
     val cards: List<Card>,
-)
+) {
+    init {
+        require(id.isNotBlank()) { "Deck id cannot be blank" }
+        require(name.isNotBlank()) { "Deck name cannot be blank" }
+    }
+}

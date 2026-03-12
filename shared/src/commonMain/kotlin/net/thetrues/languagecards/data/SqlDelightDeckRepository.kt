@@ -19,6 +19,8 @@ class SqlDelightDeckRepository(
 ) : DeckRepository {
 
     override fun addDeck(deck: Deck, languageCombo: LanguageCombination) {
+        require(deck.id.isNotBlank()) { "deck.id cannot be blank" }
+        require(languageCombo.id.isNotBlank()) { "languageCombo.id cannot be blank" }
         database.languageComboQueries.transaction {
             val comboExists = database.languageComboQueries.selectById(languageCombo.id).executeAsList().isNotEmpty()
             if (!comboExists) {
@@ -46,6 +48,7 @@ class SqlDelightDeckRepository(
         }
 
     override fun deleteDeck(deckId: String): Boolean {
+        if (deckId.isBlank()) return false
         val deck = database.deckQueries.selectById(deckId).executeAsList().firstOrNull() ?: return false
         val comboId = deck.language_combo_id
         val cardIds = database.deckCardQueries.selectCardIdsByDeckId(deckId).executeAsList()

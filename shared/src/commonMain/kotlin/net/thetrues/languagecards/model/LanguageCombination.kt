@@ -10,4 +10,11 @@ data class LanguageCombination(
     val sideAName: String,
     val sideBName: String,
     val decks: List<Deck>,
-)
+) {
+    init {
+        require(id.isNotBlank()) { "LanguageCombination id cannot be blank" }
+        require(name.isNotBlank()) { "LanguageCombination name cannot be blank" }
+        require(sideAName.isNotBlank()) { "LanguageCombination sideAName cannot be blank" }
+        require(sideBName.isNotBlank()) { "LanguageCombination sideBName cannot be blank" }
+    }
+}
