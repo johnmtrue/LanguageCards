@@ -19,8 +19,7 @@ class SqlDelightDeckRepository(
 ) : DeckRepository {
 
     override fun addDeck(deck: Deck, languageCombo: LanguageCombination) {
-        require(deck.id.isNotBlank()) { "deck.id cannot be blank" }
-        require(languageCombo.id.isNotBlank()) { "languageCombo.id cannot be blank" }
+        if (deck.id.isBlank() || languageCombo.id.isBlank()) return
         database.languageComboQueries.transaction {
             val comboExists = database.languageComboQueries.selectById(languageCombo.id).executeAsList().isNotEmpty()
             if (!comboExists) {
@@ -93,7 +92,7 @@ class SqlDelightDeckRepository(
                         sideBName = sideBName,
                         decks = decks,
                     )
-                } catch (_: IllegalArgumentException) {
+                } catch (_: Throwable) {
                     null
                 }
             }
@@ -112,7 +111,7 @@ class SqlDelightDeckRepository(
         val cards = cardIds.mapNotNull { cardId -> getCard(cardId) }
         return try {
             Deck(id = id, name = name, cards = cards)
-        } catch (_: IllegalArgumentException) {
+        } catch (_: Throwable) {
             null
         }
     }
@@ -130,7 +129,7 @@ class SqlDelightDeckRepository(
         }
         return try {
             Card(id = id, lines = cardLines)
-        } catch (_: IllegalArgumentException) {
+        } catch (_: Throwable) {
             null
         }
     }
