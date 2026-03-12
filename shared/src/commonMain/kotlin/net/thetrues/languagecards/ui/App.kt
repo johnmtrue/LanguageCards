@@ -46,6 +46,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.thetrues.languagecards.data.DeckFileParser
 import net.thetrues.languagecards.data.DeckRepository
 import net.thetrues.languagecards.shared.generated.resources.Res
 import net.thetrues.languagecards.model.Deck
@@ -90,6 +91,7 @@ fun App(
         var deleteDeckDialogShown by remember { mutableStateOf(false) }
         var restoreDefaultDecksDialogShown by remember { mutableStateOf(false) }
         var addDeckDialogShown by remember { mutableStateOf(false) }
+        var overwriteDeckPending by remember { mutableStateOf<OverwriteDeckPending?>(null) }
         val scope = rememberCoroutineScope()
         val year = 2026
 
@@ -124,8 +126,28 @@ fun App(
                                         onClick = {
                                             menuExpanded = false
                                             requestImport { json ->
-                                                deckRepository.addDeckFromJson(json).onSuccess {
-                                                    refreshTrigger++
+                                                scope.launch {
+                                                    val pending = withContext(Dispatchers.Default) {
+                                                        val parsed = DeckFileParser.parse(json)
+                                                        if (!parsed.isSuccess) return@withContext null
+                                                        val (combo, deck) = parsed.getOrThrow()
+                                                        val exists = deckRepository.getDeck(deck.id) != null
+                                                        when {
+                                                            exists -> OverwriteDeckPending(
+                                                                deckName = deck.name,
+                                                                deckId = deck.id,
+                                                                languageCombo = combo,
+                                                                deck = deck,
+                                                            )
+                                                            else -> {
+                                                                deckRepository.addDeckFromJson(json).onSuccess {
+                                                                    refreshTrigger++
+                                                                }
+                                                                null
+                                                            }
+                                                        }
+                                                    }
+                                                    overwriteDeckPending = pending
                                                 }
                                             }
                                         },
@@ -297,6 +319,39 @@ fun App(
                 scope = scope,
             )
         }
+        overwriteDeckPending?.let { pending ->
+            AlertDialog(
+                onDismissRequest = { overwriteDeckPending = null },
+                title = { Text("Deck already exists") },
+                text = {
+                    Text("A deck named \"${pending.deckName}\" already exists. Overwrite it with the imported deck?")
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val toApply = pending
+                            overwriteDeckPending = null
+                            scope.launch {
+                                withContext(Dispatchers.Default) {
+                                    toApply?.let {
+                                        deckRepository.deleteDeck(it.deckId)
+                                        deckRepository.addDeck(it.deck, it.languageCombo)
+                                        refreshTrigger++
+                                    }
+                                }
+                            }
+                        },
+                    ) {
+                        Text("Overwrite")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { overwriteDeckPending = null }) {
+                        Text("Cancel")
+                    }
+                },
+            )
+        }
         if (restoreDefaultDecksDialogShown) {
             AlertDialog(
                 onDismissRequest = { restoreDefaultDecksDialogShown = false },
@@ -330,6 +385,13 @@ fun App(
 }
 
 private data class BundledDeck(val path: String, val displayName: String, val deckId: String)
+
+private data class OverwriteDeckPending(
+    val deckName: String,
+    val deckId: String,
+    val languageCombo: LanguageCombination,
+    val deck: Deck,
+)
 
 private val BUNDLED_DECKS = listOf(
     BundledDeck("files/en-fr-french-basics.deck.json", "French — Basics", "french-1"),
