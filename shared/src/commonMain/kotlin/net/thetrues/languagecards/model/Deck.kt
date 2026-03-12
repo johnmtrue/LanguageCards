@@ -8,8 +8,5 @@ data class Deck(
     val name: String,
     val cards: List<Card>,
 ) {
-    init {
-        require(id.isNotBlank()) { "Deck id cannot be blank" }
-        require(name.isNotBlank()) { "Deck name cannot be blank" }
-    }
+    // Validation of id/name is at repository boundary to avoid Kotlin/Native init-block issues.
 }

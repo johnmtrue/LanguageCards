@@ -9,10 +9,8 @@ data class Card(
     val id: String,
     val lines: List<CardLine>,
 ) {
-    init {
-        require(id.isNotBlank()) { "Card id cannot be blank" }
-        require(lines.isNotEmpty()) { "Card must have at least one line" }
-    }
+    // Validation of id/lines is at repository boundary (addDeck, addDeckFromJson) to avoid
+    // Kotlin/Native init-block issues when building from DB or in tests.
 
     /** Convenience constructor for a single-line card with one answer on sideB. */
     constructor(id: String, sideA: String, sideB: String) : this(id, listOf(CardLine(sideA, sideB)))
