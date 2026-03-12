@@ -92,6 +92,7 @@ fun App(
         var restoreDefaultDecksDialogShown by remember { mutableStateOf(false) }
         var addDeckDialogShown by remember { mutableStateOf(false) }
         var overwriteDeckPending by remember { mutableStateOf<OverwriteDeckPending?>(null) }
+        var importErrorMessage by remember { mutableStateOf<String?>(null) }
         val scope = rememberCoroutineScope()
         val year = 2026
 
@@ -127,9 +128,12 @@ fun App(
                                             menuExpanded = false
                                             requestImport { json ->
                                                 scope.launch {
-                                                    val pending = withContext(Dispatchers.Default) {
+                                                    val (pending, formatError) = withContext(Dispatchers.Default) {
                                                         val parsed = DeckFileParser.parse(json)
-                                                        if (!parsed.isSuccess) return@withContext null
+                                                        if (!parsed.isSuccess) {
+                                                            val msg = DeckFileParser.formatParseError(parsed.exceptionOrNull())
+                                                            return@withContext null to msg
+                                                        }
                                                         val (combo, deck) = parsed.getOrThrow()
                                                         val exists = deckRepository.getDeck(deck.id) != null
                                                         when {
@@ -138,15 +142,16 @@ fun App(
                                                                 deckId = deck.id,
                                                                 languageCombo = combo,
                                                                 deck = deck,
-                                                            )
+                                                            ) to null
                                                             else -> {
                                                                 deckRepository.addDeckFromJson(json).onSuccess {
                                                                     refreshTrigger++
                                                                 }
-                                                                null
+                                                                null to null
                                                             }
                                                         }
                                                     }
+                                                    formatError?.let { importErrorMessage = it }
                                                     overwriteDeckPending = pending
                                                 }
                                             }
@@ -317,6 +322,18 @@ fun App(
                     refreshTrigger++
                 },
                 scope = scope,
+            )
+        }
+        importErrorMessage?.let { message ->
+            AlertDialog(
+                onDismissRequest = { importErrorMessage = null },
+                title = { Text("Import failed") },
+                text = { Text(message) },
+                confirmButton = {
+                    TextButton(onClick = { importErrorMessage = null }) {
+                        Text("OK")
+                    }
+                },
             )
         }
         overwriteDeckPending?.let { pending ->
