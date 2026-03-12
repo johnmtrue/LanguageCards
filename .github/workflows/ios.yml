@@ -44,7 +44,8 @@ jobs:
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest' \
-            -derivedDataPath ./build
+            -derivedDataPath ./build \
+            ARCHS=arm64
 
       - name: Upload iOS build
         uses: actions/upload-artifact@v4
