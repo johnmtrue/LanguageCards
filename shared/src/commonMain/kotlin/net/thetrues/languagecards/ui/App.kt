@@ -29,6 +29,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -93,6 +95,7 @@ fun App(
         var addDeckDialogShown by remember { mutableStateOf(false) }
         var overwriteDeckPending by remember { mutableStateOf<OverwriteDeckPending?>(null) }
         var importErrorMessage by remember { mutableStateOf<String?>(null) }
+        val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
         val year = 2026
 
@@ -104,6 +107,7 @@ fun App(
 
         Scaffold(
             modifier = Modifier.fillMaxSize().safeContentPadding(),
+            snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopAppBar(
                     title = { Text("Language Cards") },
@@ -153,6 +157,9 @@ fun App(
                                                     }
                                                     formatError?.let { importErrorMessage = it }
                                                     overwriteDeckPending = pending
+                                                    if (pending == null && formatError == null) {
+                                                        snackbarHostState.showSnackbar("Deck imported")
+                                                    }
                                                 }
                                             }
                                         },
@@ -320,6 +327,9 @@ fun App(
                 onDismiss = { addDeckDialogShown = false },
                 onAdded = {
                     refreshTrigger++
+                    scope.launch {
+                        snackbarHostState.showSnackbar("Deck added")
+                    }
                 },
                 scope = scope,
             )
@@ -355,6 +365,9 @@ fun App(
                                         deckRepository.addDeck(it.deck, it.languageCombo)
                                         refreshTrigger++
                                     }
+                                }
+                                if (toApply != null) {
+                                    snackbarHostState.showSnackbar("Deck imported")
                                 }
                             }
                         },

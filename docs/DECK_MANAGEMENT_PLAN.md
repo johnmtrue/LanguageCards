@@ -282,6 +282,9 @@ shared/
 - [x] Add "Delete deck" UI with confirmation
 - [x] Refresh language combinations after add/delete
 - [x] Test add/delete flows on Android and iOS
+- [x] Overwrite prompt when importing deck with existing ID
+- [x] JSON format validation and "Import failed" error dialog
+- [x] DeckFileParserTest for invalid/missing JSON
 
 ---
 
@@ -292,9 +295,9 @@ shared/
 | Phase 1: Schema and Repository | ✅ Done | All SQLDelight queries, repository methods, DeckFileParser |
 | Phase 2: Deck Files | ✅ Done | 7 bundled `.deck.json` files in `composeResources/files/` |
 | Phase 3: UI | ✅ Done | Import deck, Delete deck, Add deck from bundled, Restore defaults |
-| Phase 4: Polish | ⏳ Partial | Duplicate deck ID handling, JSON validation, user-facing error feedback |
+| Phase 4: Polish | ✅ Done | Overwrite prompt on duplicate deck ID; JSON validation + "Import failed" dialog; DeckFileParserTest for format errors; success Snackbar after import and add-from-bundled |
 
-**Additional implemented:** "Add a deck" dialog (adds from bundled files), "Restore default decks", iOS `DocumentPicker.ios.kt` with `UIDocumentPickerViewController`, `HostViewControllerHolder` + Swift `setHostViewControllerForImport`.
+**Additional implemented:** "Add a deck" dialog (adds from bundled files), "Restore default decks", iOS `DocumentPicker.ios.kt` with `UIDocumentPickerViewController`, `HostViewControllerHolder` + Swift `setHostViewControllerForImport`, success Snackbar ("Deck imported" / "Deck added") after import and add-from-bundled.
 
 ### Testing
 
