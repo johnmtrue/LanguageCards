@@ -74,16 +74,28 @@ class SqlDelightDeckRepository(
     override fun getLanguageCombinations(): List<LanguageCombination> {
         val combos = database.languageComboQueries.selectAll().executeAsList()
         return combos
-            .filter { it.id.isNotBlank() && it.name.isNotBlank() && it.side_a_name.isNotBlank() && it.side_b_name.isNotBlank() }
-            .map { combo ->
+            .filter {
+                it.id.trim().isNotBlank() && it.name.trim().isNotBlank() &&
+                    it.side_a_name.trim().isNotBlank() && it.side_b_name.trim().isNotBlank()
+            }
+            .mapNotNull { combo ->
+                val id = combo.id.trim()
+                val name = combo.name.trim()
+                val sideAName = combo.side_a_name.trim()
+                val sideBName = combo.side_b_name.trim()
                 val decks = database.deckQueries.selectByLanguageComboId(combo.id).executeAsList()
-                LanguageCombination(
-                    id = combo.id,
-                    name = combo.name,
-                    sideAName = combo.side_a_name,
-                    sideBName = combo.side_b_name,
-                    decks = decks.mapNotNull { deckEntity -> toDeck(deckEntity) },
-                )
+                    .mapNotNull { deckEntity -> toDeck(deckEntity) }
+                try {
+                    LanguageCombination(
+                        id = id,
+                        name = name,
+                        sideAName = sideAName,
+                        sideBName = sideBName,
+                        decks = decks,
+                    )
+                } catch (_: IllegalArgumentException) {
+                    null
+                }
             }
     }
 
@@ -93,18 +105,21 @@ class SqlDelightDeckRepository(
     }
 
     private fun toDeck(deckEntity: DeckEntity): Deck? {
-        if (deckEntity.id.isBlank() || deckEntity.name.isBlank()) return null
+        val id = deckEntity.id.trim()
+        val name = deckEntity.name.trim()
+        if (id.isBlank() || name.isBlank()) return null
         val cardIds = database.deckCardQueries.selectCardIdsByDeckId(deckEntity.id).executeAsList()
         val cards = cardIds.mapNotNull { cardId -> getCard(cardId) }
-        return Deck(
-            id = deckEntity.id,
-            name = deckEntity.name,
-            cards = cards,
-        )
+        return try {
+            Deck(id = id, name = name, cards = cards)
+        } catch (_: IllegalArgumentException) {
+            null
+        }
     }
 
     private fun getCard(cardId: String): Card? {
-        if (cardId.isBlank()) return null
+        val id = cardId.trim()
+        if (id.isBlank()) return null
         val lines = database.cardLineQueries.selectByCardId(cardId).executeAsList()
         if (lines.isEmpty()) return null
         val cardLines = lines.map { line ->
@@ -113,7 +128,11 @@ class SqlDelightDeckRepository(
                 sideB = parseSideB(line.side_b),
             )
         }
-        return Card(id = cardId, lines = cardLines)
+        return try {
+            Card(id = id, lines = cardLines)
+        } catch (_: IllegalArgumentException) {
+            null
+        }
     }
 
     private fun parseSideB(stored: String): List<String> =
