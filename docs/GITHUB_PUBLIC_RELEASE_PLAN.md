@@ -148,24 +148,36 @@ This document outlines tasks to complete before making the LanguageCards project
 
 ## 6. GitHub Repository Setup
 
-### 6.1 Repository Settings
+*These steps are done on **github.com** (repo → Settings / About / main branch), not in the codebase.*
 
-**Actions (after creating the repo):** *(Manual steps in GitHub UI)*
-- [ ] Add description and topics (e.g. `kotlin-multiplatform`, `compose-multiplatform`, `flashcards`, `language-learning`)
-- [ ] Set up branch protection for `main` (optional: require PR reviews)
-- [ ] Enable Issues and optionally Projects
-- [x] Add a GitHub Actions workflow for CI (e.g. build Android on push) — optional but recommended
+### 6.1 Project check (in-repo, verified)
 
-**Suggested repo description:** `Flashcard app for learning vocabulary (English ↔ French/Spanish). Kotlin Multiplatform + Compose.`
+| Item | Status |
+|------|--------|
+| GitHub Actions workflows | ✅ `.github/workflows/android.yml`, `.github/workflows/ios.yml` present |
+| README with description, build, structure, license | ✅ Root `README.md` |
+| LICENSE file | ✅ MIT in repo root |
+| CONTRIBUTING.md | ✅ Present |
+| .gitignore (secrets, build, local.properties) | ✅ Covers `local.properties`, `build/`, `*.keystore`, `secrets/`, `.env` |
 
-**Suggested topics:** `kotlin-multiplatform`, `compose-multiplatform`, `flashcards`, `language-learning`, `android`, `ios`
+### 6.2 Repository settings (do on GitHub)
 
-### 6.2 Initial Commit / Push
+**Where:** Repo → **About** (pencil icon) or **Settings**.
 
-**Actions:**
-- [ ] Ensure working tree is clean: `git status`, `git diff` — commit all changes before pushing
-- [ ] Run a final build: `./gradlew :androidApp:assembleDebug` (and iOS if on macOS) — CI will run on push
-- [ ] Create initial release tag (e.g. `v0.1.0`) after first push — optional
+| Action | Where | Copy-paste / notes | Status |
+|--------|--------|---------------------|--------|
+| **Add description** | About → Description | `Flashcard app for learning vocabulary (English ↔ French/Spanish/German). Kotlin Multiplatform + Compose.` | |
+| **Add topics** | About → Topics | `kotlin-multiplatform` `compose-multiplatform` `flashcards` `language-learning` `android` `ios` | |
+| **Enable Issues** | Settings → General → Features | Check **Issues** | |
+| **Branch protection (optional)** | Settings → Branches → Add rule | Branch name: `main`; require PR, status checks, etc. | ✅ Done |
+
+### 6.3 Before / after first push
+
+| Action | Notes |
+|--------|--------|
+| Working tree clean | `git status` / `git diff` — commit all changes before push |
+| Final build | `./gradlew :androidApp:assembleDebug` (and iOS on macOS if desired) |
+| Initial release tag (optional) | After first push: `git tag v0.1.0 && git push origin v0.1.0` |
 
 ---
 
@@ -177,10 +189,10 @@ This document outlines tasks to complete before making the LanguageCards project
 | **Documentation** | Create root README.md | High | ✅ |
 | **Legal** | Add LICENSE file | High | ✅ |
 | **Documentation** | Create CONTRIBUTING.md | Medium | ✅ |
-| **Hygiene** | Ensure no build artifacts committed | High | |
+| **Hygiene** | Ensure no build artifacts committed | High | (verify with `git status`) |
 | **Documentation** | Organize or document plan files (SPEC, etc.) | Low | ✅ |
-| **GitHub** | Add repo description, topics | Medium | |
 | **CI** | Add GitHub Actions build (optional) | Low | ✅ |
+| **GitHub (on github.com)** | Add repo description, topics; enable Issues; branch protection | Medium | ✅ Branch protection done; see §6.2 for rest |
 
 ---
 
