@@ -33,7 +33,6 @@ class DeckRepositoryTest {
     @BeforeTest
     fun setUp() {
         val driver = createTestDriver()
-        LanguageCardsDatabase.Schema.create(driver)
         database = LanguageCardsDatabase(driver)
         repository = SqlDelightDeckRepository(database)
     }
