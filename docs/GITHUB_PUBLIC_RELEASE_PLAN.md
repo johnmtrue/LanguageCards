@@ -166,9 +166,9 @@ This document outlines tasks to complete before making the LanguageCards project
 
 | Action | Where | Copy-paste / notes | Status |
 |--------|--------|---------------------|--------|
-| **Add description** | About → Description | `Flashcard app for learning vocabulary (English ↔ French/Spanish/German). Kotlin Multiplatform + Compose.` | |
-| **Add topics** | About → Topics | `kotlin-multiplatform` `compose-multiplatform` `flashcards` `language-learning` `android` `ios` | |
-| **Enable Issues** | Settings → General → Features | Check **Issues** | |
+| **Add description** | About → Description | `Flashcard app for learning vocabulary (English ↔ French/Spanish/German). Kotlin Multiplatform + Compose.` | ✅ Done |
+| **Add topics** | About → Topics | `kotlin-multiplatform` `compose-multiplatform` `flashcards` `language-learning` `android` `ios` | ✅ Done |
+| **Enable Issues** | Settings → General → Features | Check **Issues** | ✅ Done |
 | **Branch protection (optional)** | Settings → Branches → Add rule | Branch name: `main`; require PR, status checks, etc. | ✅ Done |
 
 ### 6.3 Before / after first push
@@ -192,7 +192,7 @@ This document outlines tasks to complete before making the LanguageCards project
 | **Hygiene** | Ensure no build artifacts committed | High | (verify with `git status`) |
 | **Documentation** | Organize or document plan files (SPEC, etc.) | Low | ✅ |
 | **CI** | Add GitHub Actions build (optional) | Low | ✅ |
-| **GitHub (on github.com)** | Add repo description, topics; enable Issues; branch protection | Medium | ✅ Branch protection done; see §6.2 for rest |
+| **GitHub (on github.com)** | Add repo description, topics; enable Issues; branch protection | Medium | ✅ Done |
 
 ---
 

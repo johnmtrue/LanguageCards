@@ -15,6 +15,13 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /**
+ * Builds a single-line card using primary constructors only.
+ * Avoids Kotlin/Native issues with Card(id, sideA, sideB) secondary constructor.
+ */
+private fun card(id: String, sideA: String, sideB: String): Card =
+    Card(id = id, lines = listOf(CardLine(sideA = sideA, sideB = listOf(sideB))))
+
+/**
  * Tests add/delete deck flows for the shared DeckRepository.
  * Runs on iOS simulator (iosSimulatorArm64Test) and Android/JVM (androidUnitTest).
  */
@@ -44,8 +51,8 @@ class DeckRepositoryTest {
             id = "deck-1",
             name = "French Basics",
             cards = listOf(
-                Card("c1", "Hello", "Bonjour"),
-                Card("c2", "Thank you", "Merci"),
+                card("c1", "Hello", "Bonjour"),
+                card("c2", "Thank you", "Merci"),
             ),
         )
 
@@ -75,7 +82,7 @@ class DeckRepositoryTest {
         val deck = Deck(
             id = "to-delete",
             name = "Temp Deck",
-            cards = listOf(Card("c1", "A", "B")),
+            cards = listOf(card("c1", "A", "B")),
         )
         repository.addDeck(deck, combo)
 
@@ -127,8 +134,8 @@ class DeckRepositoryTest {
             sideBName = "French",
             decks = emptyList(),
         )
-        val deck1 = Deck("deck-1", "Basics", listOf(Card("c1", "Hi", "Salut")))
-        val deck2 = Deck("deck-2", "Advanced", listOf(Card("c2", "Bye", "Au revoir")))
+        val deck1 = Deck("deck-1", "Basics", listOf(card("c1", "Hi", "Salut")))
+        val deck2 = Deck("deck-2", "Advanced", listOf(card("c2", "Bye", "Au revoir")))
         repository.addDeck(deck1, combo)
         repository.addDeck(deck2, combo)
 
