@@ -43,7 +43,7 @@ jobs:
             -scheme LanguageCards \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator,arch=arm64' \
+            -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest' \
             -derivedDataPath ./build
 
       - name: Upload iOS build
