@@ -37,6 +37,8 @@ import androidx.compose.material3.MenuAnchorType
 @Composable
 fun StartScreen(
     languageCombinations: List<LanguageCombination>,
+    selectedLanguageCombinationId: String?,
+    onSelectLanguageCombination: (LanguageCombination) -> Unit,
     onStart: (Deck, PracticeDirection) -> Unit,
     onExit: () -> Unit,
     modifier: Modifier = Modifier,
@@ -46,8 +48,10 @@ fun StartScreen(
         return
     }
 
-    val selectedCombo = languageCombinations.firstOrNull() ?: return
-    var selectedComboState by remember { mutableStateOf(selectedCombo) }
+    val initialCombo = languageCombinations.firstOrNull { it.id == selectedLanguageCombinationId }
+        ?: languageCombinations.firstOrNull()
+        ?: return
+    var selectedComboState by remember { mutableStateOf(initialCombo) }
     var selectedDeck by remember(selectedComboState) { mutableStateOf(selectedComboState.decks.firstOrNull()) }
     LaunchedEffect(languageCombinations) {
         val currentCombo = selectedComboState
@@ -56,6 +60,7 @@ fun StartScreen(
             val first = languageCombinations.firstOrNull() ?: return@LaunchedEffect
             selectedComboState = first
             selectedDeck = first.decks.firstOrNull()
+            onSelectLanguageCombination(first)
         } else {
             selectedComboState = comboInList
             val currentDeck = selectedDeck
@@ -65,6 +70,7 @@ fun StartScreen(
             } else {
                 selectedDeck = deckInList
             }
+            onSelectLanguageCombination(comboInList)
         }
     }
     val combo = selectedComboState
@@ -114,6 +120,7 @@ fun StartScreen(
                         text = { Text(combination.name) },
                         onClick = {
                             selectedComboState = combination
+                            onSelectLanguageCombination(combination)
                             comboExpanded = false
                         },
                     )
