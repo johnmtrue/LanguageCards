@@ -301,7 +301,7 @@ shared/
 
 ### Testing
 
-- **Android**: `./gradlew :androidApp:testDebugUnitTest` — `DeckRepositoryTest` (JVM) covers add/delete/addFromJson flows.
+- **Android**: `./gradlew :androidApp:testDebugUnitTest` — `DeckRepositoryTest` and `StatsRepositoryTest` (JVM) cover deck flows and stats recording/clearing.
 - **iOS**: `./gradlew :shared:iosSimulatorArm64Test` — currently runs shared parser tests (e.g. `DeckFileParserTest`) on Native. `DeckRepositoryTest` is temporarily skipped on iOS (annotated with a platform-specific ignore) due to a Kotlin/Native `IllegalArgumentException` on CI.
 - **Manual**: See [DECK_ADD_DELETE_TEST_PROCEDURE.md](DECK_ADD_DELETE_TEST_PROCEDURE.md).
 - **TODO**: Re-enable shared `DeckRepositoryTest` on iOS once the Native driver / model interaction issue is fully understood and fixed.

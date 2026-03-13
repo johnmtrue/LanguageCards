@@ -4,13 +4,13 @@ A flashcard app for learning vocabulary in English ↔ French, English ↔ Spani
 
 ## Features
 
-- **Bidirectional practice** — English → Foreign and Foreign → English
-- **Hit/miss tracking** — Per card and per direction, to prioritize difficult cards
-- **Session summary** — See accuracy and progress after each practice round
-- **Overall stats** — Track total hits, misses, and accuracy across all sessions
-- **Add, delete, and restore decks** — Add bundled decks, remove unwanted ones, or restore defaults
-- **Import decks** — Add custom decks from JSON files (Android: file picker; iOS: document picker)
-- **Built-in decks** — French (Basics, Past Tense, Conversation); Spanish (Basics, Conversation); German (Basics, Conversation)
+- **Bidirectional practice** — Practice in both directions (e.g. English → French and French → English) for each language combination.
+- **Per-card, per-direction stats** — Track hits and misses separately for each card and direction to prioritize difficult material.
+- **Stats screen by language and direction** — See overall accuracy plus a breakdown by practice direction for the currently selected language combination.
+- **Session summary** — After each session, review accuracy and which cards were hit or missed.
+- **Deck management** — Add, delete, and restore decks; restore the default bundled decks at any time.
+- **Robust deck import** — Import custom decks from JSON with validation, overwrite prompts on duplicates, and clear success/error messages.
+- **Built-in decks** — French (Basics, Past Tense, Conversation); Spanish (Basics, Conversation); German (Basics, Conversation).
 
 ## Tech Stack
 
