@@ -98,10 +98,16 @@ fun App(
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
         val year = 2026
+        var selectedLanguageCombinationId by remember { mutableStateOf<String?>(null) }
 
         LaunchedEffect(deckRepository, refreshTrigger) {
-            languageCombinations = withContext(Dispatchers.Default) {
+            val combos = withContext(Dispatchers.Default) {
                 deckRepository.getLanguageCombinations()
+            }
+            languageCombinations = combos
+            val currentId = selectedLanguageCombinationId
+            if (combos.isNotEmpty() && combos.none { it.id == currentId }) {
+                selectedLanguageCombinationId = combos.first().id
             }
         }
 
@@ -235,6 +241,10 @@ fun App(
                         }
                         else -> StartScreen(
                             languageCombinations = combos,
+                            selectedLanguageCombinationId = selectedLanguageCombinationId,
+                            onSelectLanguageCombination = { combo ->
+                                selectedLanguageCombinationId = combo.id
+                            },
                             onStart = { deck, direction ->
                                 sessionState = SessionFlow.startSession(deck, direction, statsStore)
                             },
@@ -258,8 +268,22 @@ fun App(
                     )
                 }
                 if (statsScreenShown) {
+                    val allStats = statsStore.getAllStats()
+                    val combos = languageCombinations
+                    val selectedComboForStats = combos?.let { list ->
+                        val id = selectedLanguageCombinationId
+                        list.find { it.id == id } ?: list.firstOrNull()
+                    }
+                    val statsForSelectedCombo = selectedComboForStats?.let { combo ->
+                        val cardIdsInCombo = combo.decks
+                            .flatMap { it.cards }
+                            .map { it.id }
+                            .toSet()
+                        allStats.filter { it.cardId in cardIdsInCombo }
+                    } ?: emptyList()
                     StatsScreen(
-                        stats = statsStore.getAllStats(),
+                        stats = statsForSelectedCombo,
+                        languageCombination = selectedComboForStats,
                         onDismiss = { statsScreenShown = false },
                         modifier = Modifier.fillMaxSize(),
                     )

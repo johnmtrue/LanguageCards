@@ -164,7 +164,8 @@ Store direction as `TEXT` in SQLite: `"A_TO_B"` or `"B_TO_A"` (matching `Practic
 - [x] Update `StatsRepository` interface
 - [x] Update `SqlDelightStatsRepository` implementation
 - [x] Update `App.kt` to pass `sessionState.direction` to `record()`
-- [x] Update `StatsScreen` if showing per-direction breakdown
+- [x] Update `StatsScreen` with per-direction breakdown and language-aware labels
+- [x] Add unit tests for stats recording/clearing (shared + Android)
 - [ ] Test on Android and iOS
 - [ ] (Future) Implement weak-first prioritization using per-direction stats
 
