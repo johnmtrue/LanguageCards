@@ -38,10 +38,14 @@ jobs:
       - name: Build Android release APK
         run: ./gradlew :androidApp:assembleRelease --no-daemon
 
-      - name: Upload Android APKs
+      - name: Build Android release App Bundle
+        run: ./gradlew :androidApp:bundleRelease --no-daemon
+
+      - name: Upload Android APKs and bundle
         uses: actions/upload-artifact@v4
         with:
-          name: android-apks
+          name: android-apks-and-bundle
           path: |
             androidApp/build/outputs/apk/debug/
             androidApp/build/outputs/apk/release/
+            androidApp/build/outputs/bundle/release/
