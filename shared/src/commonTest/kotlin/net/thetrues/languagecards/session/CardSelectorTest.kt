@@ -202,11 +202,13 @@ class CardSelectorTest {
             if (underpracticed in result) underpracticedCount++
             if (strong in result) strongCount++
         }
-        assertTrue(weakCount > strongCount) {
-            "Weak cards (high misses) should appear more often than strong (high hits): weak=$weakCount strong=$strongCount"
-        }
-        assertTrue(underpracticedCount > strongCount) {
-            "Under-practiced cards should appear more often than strong: underpracticed=$underpracticedCount strong=$strongCount"
-        }
+        assertTrue(
+            weakCount > strongCount,
+            "Weak cards (high misses) should appear more often than strong (high hits): weak=$weakCount strong=$strongCount",
+        )
+        assertTrue(
+            underpracticedCount > strongCount,
+            "Under-practiced cards should appear more often than strong: underpracticed=$underpracticedCount strong=$strongCount",
+        )
     }
 }
