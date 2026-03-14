@@ -163,4 +163,48 @@ class CardSelectorTest {
             assertEquals("No duplicates expected for seed $seed", result.toSet().size, result.size)
         }
     }
+
+    @Test
+    fun weightedSelection_favorsLeastPracticedAndWeakCards_overManyRuns() {
+        // weak: 0 hits 9 misses (weight 10), underpracticed: 1 hit 1 miss (weight 6), strong: 10 hits 0 misses (weight 1)
+        // 17 unplayed (weight 7 each). Deck size 20, sessionSize 10 → 5 weighted + 5 random.
+        // Weak and underpracticed have higher weights, so they appear more often than strong over many runs.
+        val weak = card("weak")
+        val underpracticed = card("underpracticed")
+        val strong = card("strong")
+        val deck = deck(
+            weak,
+            underpracticed,
+            strong,
+            *((1..17).map { card("u$it") }).toTypedArray(),
+        )
+        val statsByCard = mapOf(
+            "weak" to stats("weak", hits = 0, misses = 9),
+            "underpracticed" to stats("underpracticed", hits = 1, misses = 1),
+            "strong" to stats("strong", hits = 10, misses = 0),
+        )
+        var weakCount = 0
+        var underpracticedCount = 0
+        var strongCount = 0
+        repeat(200) { seed ->
+            val result = CardSelector.selectCards(
+                deck = deck,
+                direction = PracticeDirection.A_TO_B,
+                sessionSize = 10,
+                statsByCard = statsByCard,
+                random = Random(seed.toLong()),
+            )
+            if (weak in result) weakCount++
+            if (underpracticed in result) underpracticedCount++
+            if (strong in result) strongCount++
+        }
+        assertTrue(
+            "Weak cards (high misses) should appear more often than strong (high hits): weak=$weakCount strong=$strongCount",
+            weakCount > strongCount,
+        )
+        assertTrue(
+            "Under-practiced cards should appear more often than strong: underpracticed=$underpracticedCount strong=$strongCount",
+            underpracticedCount > strongCount,
+        )
+    }
 }

@@ -8,17 +8,21 @@ import net.thetrues.languagecards.model.PracticeDirection
 
 /**
  * Selects cards for a practice session using a hybrid approach:
- * - Half: weighted random toward cards most missed (low success rate)
+ * - Half: weighted random toward weak cards (high misses, low success rate) and least-practiced cards
  * - Half: random from the remaining cards
  *
- * Weight = misses + 1 (unplayed cards get weight 1).
+ * Uses per-direction stats (pass [statsByCard] from [StatsRepository.getStatsForCards] for the chosen direction).
+ * Weight = 1 + misses + underPracticedBonus, where underPracticedBonus favors cards with few attempts.
  */
 object CardSelector {
+
+    /** Cards with fewer than this many attempts get an extra weight bonus (prioritize least-practiced). */
+    private const val MIN_ATTEMPTS_FOR_BONUS = 6
 
     /**
      * Selects [sessionSize] cards from the deck.
      * When deck has <= [sessionSize] cards, returns all cards shuffled.
-     * Otherwise: half weighted by misses, half random from remainder, then shuffled.
+     * Otherwise: half weighted by weakness (misses) and least-practiced (few attempts), half random from remainder, then shuffled.
      */
     fun selectCards(
         deck: Deck,
@@ -37,7 +41,14 @@ object CardSelector {
         val weightedCount = sessionSize / 2
         val randomCount = sessionSize - weightedCount
 
-        val weights = cards.map { (statsByCard[it.id]?.misses ?: 0) + 1 }
+        val weights = cards.map { card ->
+            val s = statsByCard[card.id]
+            val hits = s?.hits ?: 0
+            val misses = s?.misses ?: 0
+            val attempts = hits + misses
+            val underPracticedBonus = maxOf(0, MIN_ATTEMPTS_FOR_BONUS - attempts)
+            1 + misses + underPracticedBonus
+        }
         val weightedHalf = weightedSample(cards, weights, weightedCount, random)
         val remainder = cards.filter { it !in weightedHalf }
         val randomHalf = remainder.shuffled(random).take(randomCount)
