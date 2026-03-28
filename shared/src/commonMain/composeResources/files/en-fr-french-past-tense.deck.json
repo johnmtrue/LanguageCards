@@ -29,6 +29,13 @@
     {"id": "pt-17", "lines": [{"sideA": "I started", "sideB": ["J'ai commencé"]}]},
     {"id": "pt-18", "lines": [{"sideA": "I took", "sideB": ["J'ai pris"]}]},
     {"id": "pt-19", "lines": [{"sideA": "I made", "sideB": ["J'ai fait"]}]},
-    {"id": "pt-20", "lines": [{"sideA": "I had", "sideB": ["J'ai eu"]}]}
+    {"id": "pt-20", "lines": [{"sideA": "I had", "sideB": ["J'ai eu"]}]},
+    {"id": "pt-21", "lines": [{"sideA": "we ate", "sideB": ["Nous avons mangé"]}]},
+    {"id": "pt-22", "lines": [{"sideA": "you ate", "sideB": ["Tu as mangé", "Vous avez mangé"]}]},
+    {"id": "pt-23", "lines": [{"sideA": "he ate", "sideB": ["Il a mangé"]}]},
+    {"id": "pt-24", "lines": [{"sideA": "she ate", "sideB": ["Elle a mangé"]}]},
+    {"id": "pt-25", "lines": [{"sideA": "they ate", "sideB": ["Ils ont mangé", "Elles ont mangé"]}]},
+    {"id": "pt-26", "lines": [{"sideA": "you drank", "sideB": ["Tu as bu", "Vous avez bu"]}]},
+    {"id": "pt-27", "lines": [{"sideA": "I chose", "sideB": ["J'ai choisi"]}]}
   ]
 }
