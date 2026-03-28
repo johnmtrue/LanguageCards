@@ -9,6 +9,7 @@ data class SessionState(
     val cards: List<Card>,
     val results: List<CardResult>,
     val direction: PracticeDirection,
+    val options: SessionOptions = SessionOptions.Default,
 ) {
     /** True when all cards have been answered; show summary screen. */
     val isAtSummary: Boolean

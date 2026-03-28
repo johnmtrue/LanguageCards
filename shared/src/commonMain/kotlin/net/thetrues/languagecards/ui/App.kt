@@ -54,9 +54,12 @@ import net.thetrues.languagecards.shared.generated.resources.Res
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.LanguageCombination
 import net.thetrues.languagecards.model.SessionState
+import net.thetrues.languagecards.settings.AppSettings
 import net.thetrues.languagecards.repository.StatsRepository
 import net.thetrues.languagecards.session.SessionFlow
+import net.thetrues.languagecards.settings.SettingsStore
 import net.thetrues.languagecards.ui.screens.CardScreen
+import net.thetrues.languagecards.ui.screens.SettingsScreen
 import net.thetrues.languagecards.ui.screens.StartScreen
 import net.thetrues.languagecards.ui.screens.StatsScreen
 import net.thetrues.languagecards.ui.screens.SummaryScreen
@@ -71,12 +74,14 @@ import net.thetrues.languagecards.ui.theme.LanguageCardsTheme
  * [versionName] is shown in the About dialog (default: "0.1"). Pass BuildConfig.VERSION_NAME on Android.
  * [onRequestImportDeck] when non-null, enables "Import deck" menu. Platform shows file picker
  * and invokes the callback with the file content. Null on platforms without file picker support.
+ * [settingsStore] persists default practice options and TTS toggle (platform `createSettingsStore`).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     deckRepository: DeckRepository,
     statsStore: StatsRepository,
+    settingsStore: SettingsStore,
     onExit: () -> Unit,
     authorName: String = "Your Name",
     versionName: String = "0.1",
@@ -89,6 +94,7 @@ fun App(
         var menuExpanded by remember { mutableStateOf(false) }
         var aboutDialogShown by remember { mutableStateOf(false) }
         var statsScreenShown by remember { mutableStateOf(false) }
+        var settingsScreenShown by remember { mutableStateOf(false) }
         var clearStatsDialogShown by remember { mutableStateOf(false) }
         var deleteDeckDialogShown by remember { mutableStateOf(false) }
         var restoreDefaultDecksDialogShown by remember { mutableStateOf(false) }
@@ -99,6 +105,11 @@ fun App(
         val scope = rememberCoroutineScope()
         val year = 2026
         var selectedLanguageCombinationId by remember { mutableStateOf<String?>(null) }
+        var appSettingsSnapshot by remember { mutableStateOf(AppSettings.Default) }
+
+        LaunchedEffect(Unit) {
+            appSettingsSnapshot = withContext(Dispatchers.Default) { settingsStore.read() }
+        }
 
         LaunchedEffect(deckRepository, refreshTrigger) {
             val combos = withContext(Dispatchers.Default) {
@@ -193,7 +204,14 @@ fun App(
                                     },
                                 )
                                 HorizontalDivider()
-                                // Group 2: Stats
+                                // Group 2: Settings & stats
+                                DropdownMenuItem(
+                                    text = { Text("Settings") },
+                                    onClick = {
+                                        menuExpanded = false
+                                        settingsScreenShown = true
+                                    },
+                                )
                                 DropdownMenuItem(
                                     text = { Text("Stats") },
                                     onClick = {
@@ -239,18 +257,22 @@ fun App(
                         ) {
                             CircularProgressIndicator()
                         }
-                        else -> StartScreen(
-                            languageCombinations = combos,
-                            selectedLanguageCombinationId = selectedLanguageCombinationId,
-                            onSelectLanguageCombination = { combo ->
-                                selectedLanguageCombinationId = combo.id
-                            },
-                            onStart = { deck, direction ->
-                                sessionState = SessionFlow.startSession(deck, direction, statsStore)
-                            },
-                            onExit = onExit,
-                            modifier = Modifier.fillMaxSize(),
-                        )
+                        else -> {
+                            StartScreen(
+                                languageCombinations = combos,
+                                selectedLanguageCombinationId = selectedLanguageCombinationId,
+                                onSelectLanguageCombination = { combo ->
+                                    selectedLanguageCombinationId = combo.id
+                                },
+                                onStart = { deck, direction, options ->
+                                    sessionState = SessionFlow.startSession(deck, direction, statsStore, options)
+                                },
+                                onExit = onExit,
+                                defaultSessionOptions = appSettingsSnapshot.toSessionOptions(),
+                                defaultPracticeDirection = appSettingsSnapshot.defaultDirection,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
                     }
                     sessionState!!.isAtSummary -> SummaryScreen(
                         state = sessionState!!,
@@ -263,6 +285,25 @@ fun App(
                         onAnswer = { cardId, wasHit ->
                             statsStore.record(cardId, sessionState!!.direction, wasHit)
                             sessionState = SessionFlow.recordAnswer(sessionState!!, cardId, wasHit)
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                if (settingsScreenShown) {
+                    val selectedComboForSettings = languageCombinations?.let { list ->
+                        val id = selectedLanguageCombinationId
+                        list.find { it.id == id } ?: list.firstOrNull()
+                    }
+                    SettingsScreen(
+                        settingsStore = settingsStore,
+                        languageCombination = selectedComboForSettings,
+                        onDismiss = {
+                            scope.launch {
+                                appSettingsSnapshot = withContext(Dispatchers.Default) {
+                                    settingsStore.read()
+                                }
+                                settingsScreenShown = false
+                            }
                         },
                         modifier = Modifier.fillMaxSize(),
                     )
