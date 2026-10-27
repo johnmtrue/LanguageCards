@@ -7,6 +7,7 @@ import net.thetrues.languagecards.data.createDatabase
 import net.thetrues.languagecards.platform.createImportDeckHandler
 import net.thetrues.languagecards.platform.setHostViewController
 import net.thetrues.languagecards.repository.SqlDelightStatsRepository
+import net.thetrues.languagecards.settings.createSettingsStore
 import net.thetrues.languagecards.ui.App
 import kotlin.system.exitProcess
 import platform.UIKit.UIViewController
@@ -29,9 +30,11 @@ fun MainViewController(): UIViewController = ComposeUIViewController {
     val database = remember { createDatabase(null) }
     val deckRepository = remember(database) { SqlDelightDeckRepository(database) }
     val statsStore = remember(database) { SqlDelightStatsRepository(database) }
+    val settingsStore = remember { createSettingsStore(null) }
     App(
         deckRepository = deckRepository,
         statsStore = statsStore,
+        settingsStore = settingsStore,
         onExit = { exitProcess(0) },
         authorName = "John True",
         onRequestImportDeck = createImportDeckHandler(),

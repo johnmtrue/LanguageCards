@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import net.thetrues.languagecards.data.SqlDelightDeckRepository
 import net.thetrues.languagecards.data.createDatabase
 import net.thetrues.languagecards.repository.SqlDelightStatsRepository
+import net.thetrues.languagecards.settings.createSettingsStore
 import net.thetrues.languagecards.ui.App
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
             val database = remember { createDatabase(applicationContext) }
             val deckRepository = remember(database) { SqlDelightDeckRepository(database) }
             val statsStore = remember(database) { SqlDelightStatsRepository(database) }
+            val settingsStore = remember { createSettingsStore(applicationContext) }
             var importCallback by remember { mutableStateOf<((String) -> Unit)?>(null) }
             val filePickerLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.GetContent(),
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
             App(
                 deckRepository = deckRepository,
                 statsStore = statsStore,
+                settingsStore = settingsStore,
                 onExit = { finish() },
                 authorName = "John True",
                 versionName = BuildConfig.VERSION_NAME,

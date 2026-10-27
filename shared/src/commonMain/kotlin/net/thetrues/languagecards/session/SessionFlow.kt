@@ -3,6 +3,7 @@ package net.thetrues.languagecards.session
 import net.thetrues.languagecards.model.CardResult
 import net.thetrues.languagecards.model.Deck
 import net.thetrues.languagecards.model.PracticeDirection
+import net.thetrues.languagecards.model.SessionOptions
 import net.thetrues.languagecards.model.SessionState
 import net.thetrues.languagecards.repository.StatsRepository
 
@@ -23,6 +24,7 @@ object SessionFlow {
         deck: Deck,
         direction: PracticeDirection,
         statsRepository: StatsRepository,
+        options: SessionOptions = SessionOptions.Default,
     ): SessionState {
         val cardIds = deck.cards.map { it.id }
         val statsByCard = statsRepository.getStatsForCards(cardIds, direction)
@@ -37,6 +39,7 @@ object SessionFlow {
             cards = selectedCards,
             results = emptyList(),
             direction = direction,
+            options = options,
         )
     }
 

@@ -31,6 +31,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(kotlin("stdlib"))
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -51,6 +52,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.sqldelight.android.driver)
+            implementation(libs.androidx.datastore.preferences)
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
